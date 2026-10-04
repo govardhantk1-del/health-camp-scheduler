@@ -301,26 +301,26 @@
 
 <script>
 // ============================================================
-// Supabase credentials
+// Supabase client (renamed to 'db' to avoid name clash)
 // ============================================================
-const SUPABASE_URL = 'https://nqfelltkkmmiosvndifl.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5xZmVsbHRra21taW9zdm5kaWZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExMzExOTUsImV4cCI6MjEwNjcwNzE5NX0.cLHe0NVu-sGQv4qdJ74kS_AYqlFoqvKFC91Fsj4UHa0';
-
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+var SUPABASE_URL = 'https://nqfelltkkmmiosvndifl.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5xZmVsbHRra21taW9zdm5kaWZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExMzExOTUsImV4cCI6MjEwNjcwNzE5NX0.cLHe0NVu-sGQv4qdJ74kS_AYqlFoqvKFC91Fsj4UHa0';
+var db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 lucide.createIcons();
 
 function switchTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-    const target = document.getElementById(`page-${tabId}`);
+    var target = document.getElementById('page-' + tabId);
     if (target) target.classList.remove('hidden');
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.remove('text-brand-600','bg-brand-50');
         btn.classList.add('text-slate-600');
     });
-    const activeNav = document.getElementById(`nav-${tabId}`);
+    var activeNav = document.getElementById('nav-' + tabId);
     if (activeNav) { activeNav.classList.add('text-brand-600','bg-brand-50'); activeNav.classList.remove('text-slate-600'); }
-    document.getElementById('mobile-menu').classList.add('hidden');
+    var mm = document.getElementById('mobile-menu');
+    if (mm) mm.classList.add('hidden');
     window.scrollTo({top:0,behavior:'smooth'});
 
     if (tabId === 'camps') loadCamps();
@@ -331,46 +331,47 @@ function switchTab(tabId) {
     if (tabId === 'reports') renderReportsChart();
     if (tabId === 'landing') loadLandingStats();
 }
+
 function toggleMobileMenu(){ document.getElementById('mobile-menu').classList.toggle('hidden'); }
 function openScheduleModal(){ document.getElementById('scheduleModal').classList.remove('hidden'); }
 function closeScheduleModal(){ document.getElementById('scheduleModal').classList.add('hidden'); }
 
 async function loadLandingStats(){
-    const [{count:c}, {count:p}, {count:s}] = await Promise.all([
-        supabase.from('camps').select('*', {count:'exact', head:true}),
-        supabase.from('participants').select('*', {count:'exact', head:true}),
-        supabase.from('screenings').select('*', {count:'exact', head:true})
-    ]);
-    document.getElementById('statCamps').textContent = c || 0;
-    document.getElementById('statParticipants').textContent = p || 0;
-    document.getElementById('statScreenings').textContent = s || 0;
-    document.getElementById('landingCamps').textContent = c || 0;
-    document.getElementById('landingParticipants').textContent = p || 0;
-    const upcoming = await supabase.from('camps').select('*',{count:'exact',head:true}).eq('status','upcoming');
-    document.getElementById('statUpcoming').textContent = upcoming.count || 0;
+    try {
+        var r1 = await db.from('camps').select('*', {count:'exact', head:true});
+        var r2 = await db.from('participants').select('*', {count:'exact', head:true});
+        var r3 = await db.from('screenings').select('*', {count:'exact', head:true});
+        var r4 = await db.from('camps').select('*',{count:'exact',head:true}).eq('status','upcoming');
+        document.getElementById('statCamps').textContent = r1.count || 0;
+        document.getElementById('statParticipants').textContent = r2.count || 0;
+        document.getElementById('statScreenings').textContent = r3.count || 0;
+        document.getElementById('statUpcoming').textContent = r4.count || 0;
+        document.getElementById('landingCamps').textContent = r1.count || 0;
+        document.getElementById('landingParticipants').textContent = r2.count || 0;
+    } catch(e) { console.error('loadLandingStats error:', e); }
 }
 
 async function loadCamps(){
-    const {data: camps, error} = await supabase.from('camps').select('*').order('date', {ascending:true});
-    const tbody = document.getElementById('campsTableBody');
-    if (error) { tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-rose-500">${error.message}</td></tr>`; return; }
-    if (!camps.length) { tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">No camps yet.</td></tr>`; return; }
-    tbody.innerHTML = camps.map(c => `
-        <tr class="hover:bg-slate-50/80">
-            <td class="p-4 font-semibold text-slate-900">${c.name}</td>
-            <td class="p-4">${c.location || '-'}</td>
-            <td class="p-4">${c.date || ''} ${c.start_time || ''}</td>
-            <td class="p-4">${c.registered_count || 0}/${c.max_participants || 100}</td>
-            <td class="p-4 text-teal-600 font-semibold">${(c.max_participants||100) - (c.registered_count||0)}</td>
-            <td class="p-4"><span class="px-2.5 py-1 bg-blue-50 text-brand-600 rounded-full text-xs">${c.status}</span></td>
-        </tr>
-    `).join('');
+    var res = await db.from('camps').select('*').order('date', {ascending:true});
+    var tbody = document.getElementById('campsTableBody');
+    if (res.error) { tbody.innerHTML = '<tr><td colspan="6" class="p-6 text-center text-rose-500">' + res.error.message + '</td></tr>'; return; }
+    if (!res.data.length) { tbody.innerHTML = '<tr><td colspan="6" class="p-6 text-center text-slate-400">No camps yet.</td></tr>'; return; }
+    tbody.innerHTML = res.data.map(function(c){
+        return '<tr class="hover:bg-slate-50/80">' +
+            '<td class="p-4 font-semibold text-slate-900">' + c.name + '</td>' +
+            '<td class="p-4">' + (c.location || '-') + '</td>' +
+            '<td class="p-4">' + (c.date || '') + ' ' + (c.start_time || '') + '</td>' +
+            '<td class="p-4">' + (c.registered_count || 0) + '/' + (c.max_participants || 100) + '</td>' +
+            '<td class="p-4 text-teal-600 font-semibold">' + ((c.max_participants||100) - (c.registered_count||0)) + '</td>' +
+            '<td class="p-4"><span class="px-2.5 py-1 bg-blue-50 text-brand-600 rounded-full text-xs">' + c.status + '</span></td>' +
+        '</tr>';
+    }).join('');
 }
 
 async function handleScheduleCamp(e){
     e.preventDefault();
-    const f = e.target;
-    const {error} = await supabase.from('camps').insert({
+    var f = e.target;
+    var res = await db.from('camps').insert({
         name: f.name.value,
         location: f.location.value,
         date: f.date.value,
@@ -379,7 +380,7 @@ async function handleScheduleCamp(e){
         max_participants: Number(f.maxParticipants.value),
         status: 'upcoming'
     });
-    if (error) { alert('Error: ' + error.message); return; }
+    if (res.error) { alert('Error: ' + res.error.message); return; }
     alert('Camp scheduled!');
     f.reset();
     closeScheduleModal();
@@ -387,80 +388,80 @@ async function handleScheduleCamp(e){
 }
 
 async function loadParticipants(){
-    const {data: list, error} = await supabase.from('participants').select('*').order('created_at', {ascending:false});
-    const tbody = document.getElementById('participantsTableBody');
-    if (error) { tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-rose-500">${error.message}</td></tr>`; return; }
-    if (!list.length) { tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-slate-400">No participants yet.</td></tr>`; return; }
-    tbody.innerHTML = list.map(p => `
-        <tr>
-            <td class="p-4 font-mono font-medium text-brand-600">${p.registration_id}</td>
-            <td class="p-4 font-semibold text-slate-900">${p.name}</td>
-            <td class="p-4">${p.age || '-'} yrs • ${p.phone || '-'}</td>
-            <td class="p-4"><span class="px-2.5 py-1 bg-blue-100 text-brand-700 rounded-full text-xs">${p.screened ? 'Screened' : 'Registered'}</span></td>
-        </tr>
-    `).join('');
+    var res = await db.from('participants').select('*').order('created_at', {ascending:false});
+    var tbody = document.getElementById('participantsTableBody');
+    if (res.error) { tbody.innerHTML = '<tr><td colspan="4" class="p-6 text-center text-rose-500">' + res.error.message + '</td></tr>'; return; }
+    if (!res.data.length) { tbody.innerHTML = '<tr><td colspan="4" class="p-6 text-center text-slate-400">No participants yet.</td></tr>'; return; }
+    tbody.innerHTML = res.data.map(function(p){
+        return '<tr>' +
+            '<td class="p-4 font-mono font-medium text-brand-600">' + p.registration_id + '</td>' +
+            '<td class="p-4 font-semibold text-slate-900">' + p.name + '</td>' +
+            '<td class="p-4">' + (p.age || '-') + ' yrs • ' + (p.phone || '-') + '</td>' +
+            '<td class="p-4"><span class="px-2.5 py-1 bg-blue-100 text-brand-700 rounded-full text-xs">' + (p.screened ? 'Screened' : 'Registered') + '</span></td>' +
+        '</tr>';
+    }).join('');
 }
 
 async function loadCampOptions(){
-    const {data: camps} = await supabase.from('camps').select('id,name,location');
-    const sel = document.getElementById('registrationCampSelect');
-    if (!camps || !camps.length) { sel.innerHTML = `<option value="">No camps available</option>`; return; }
-    sel.innerHTML = camps.map(c => `<option value="${c.id}">${c.name} - ${c.location}</option>`).join('');
+    var res = await db.from('camps').select('id,name,location');
+    var sel = document.getElementById('registrationCampSelect');
+    if (!res.data || !res.data.length) { sel.innerHTML = '<option value="">No camps available</option>'; return; }
+    sel.innerHTML = res.data.map(function(c){ return '<option value="' + c.id + '">' + c.name + ' - ' + c.location + '</option>'; }).join('');
 }
 
 async function handleRegistration(e){
     e.preventDefault();
-    const f = e.target;
-    const {data, error} = await supabase.from('participants').insert({
+    var f = e.target;
+    var res = await db.from('participants').insert({
         name: f.name.value,
         age: Number(f.age.value),
         phone: f.phone.value,
         camp_id: f.campId.value || null
     }).select().single();
-    if (error) { alert('Error: ' + error.message); return; }
-    document.getElementById('regIdSpan').textContent = data.registration_id;
+    if (res.error) { alert('Error: ' + res.error.message); return; }
+    document.getElementById('regIdSpan').textContent = res.data.registration_id;
     document.getElementById('registrationSuccess').classList.remove('hidden');
     if (f.campId.value) {
-        const {data: camp} = await supabase.from('camps').select('registered_count').eq('id', f.campId.value).single();
-        if (camp) await supabase.from('camps').update({registered_count: (camp.registered_count||0)+1}).eq('id', f.campId.value);
+        var cr = await db.from('camps').select('registered_count').eq('id', f.campId.value).single();
+        if (cr.data) await db.from('camps').update({registered_count: (cr.data.registered_count||0)+1}).eq('id', f.campId.value);
     }
     f.reset();
 }
 
 async function loadAttendance(){
-    const {data: list, error} = await supabase.from('participants').select('*').order('created_at', {ascending:false});
-    const tbody = document.getElementById('attendanceTableBody');
-    if (error) { tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-rose-500">${error.message}</td></tr>`; return; }
-    if (!list.length) { tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-slate-400">No participants yet.</td></tr>`; return; }
-    tbody.innerHTML = list.map(p => `
-        <tr>
-            <td class="p-4 font-mono text-slate-500">${p.registration_id}</td>
-            <td class="p-4 font-semibold text-slate-900">${p.name}</td>
-            <td class="p-4"><span class="px-2.5 py-1 bg-slate-100 rounded-full text-xs">${p.attendance || 'pending'}</span></td>
-            <td class="p-4 text-right space-x-1">
-                <button onclick="markAttendance('${p.id}','present')" class="px-2.5 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-xs font-semibold">P</button>
-                <button onclick="markAttendance('${p.id}','absent')" class="px-2.5 py-1 bg-rose-50 text-rose-600 rounded-lg text-xs font-semibold">A</button>
-            </td>
-        </tr>
-    `).join('');
+    var res = await db.from('participants').select('*').order('created_at', {ascending:false});
+    var tbody = document.getElementById('attendanceTableBody');
+    if (res.error) { tbody.innerHTML = '<tr><td colspan="4" class="p-6 text-center text-rose-500">' + res.error.message + '</td></tr>'; return; }
+    if (!res.data.length) { tbody.innerHTML = '<tr><td colspan="4" class="p-6 text-center text-slate-400">No participants yet.</td></tr>'; return; }
+    tbody.innerHTML = res.data.map(function(p){
+        return '<tr>' +
+            '<td class="p-4 font-mono text-slate-500">' + p.registration_id + '</td>' +
+            '<td class="p-4 font-semibold text-slate-900">' + p.name + '</td>' +
+            '<td class="p-4"><span class="px-2.5 py-1 bg-slate-100 rounded-full text-xs">' + (p.attendance || 'pending') + '</span></td>' +
+            '<td class="p-4 text-right space-x-1">' +
+                '<button onclick="markAttendance(\'' + p.id + '\',\'present\')" class="px-2.5 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-xs font-semibold">P</button>' +
+                '<button onclick="markAttendance(\'' + p.id + '\',\'absent\')" class="px-2.5 py-1 bg-rose-50 text-rose-600 rounded-lg text-xs font-semibold">A</button>' +
+            '</td>' +
+        '</tr>';
+    }).join('');
 }
 
 async function markAttendance(id, status){
-    await supabase.from('participants').update({attendance: status}).eq('id', id);
+    await db.from('participants').update({attendance: status}).eq('id', id);
     loadAttendance();
 }
 
 async function handleSaveScreening(e){
     e.preventDefault();
-    const f = e.target;
-    const input = f.participantId.value.trim();
-    let pid = input;
-    if (input.startsWith('CHC-')) {
-        const {data} = await supabase.from('participants').select('id').eq('registration_id', input).single();
-        if (!data) { alert('Participant not found'); return; }
-        pid = data.id;
+    var f = e.target;
+    var input = f.participantId.value.trim();
+    var pid = input;
+    if (input.indexOf('CHC-') === 0) {
+        var lookup = await db.from('participants').select('id').eq('registration_id', input).single();
+        if (!lookup.data) { alert('Participant not found'); return; }
+        pid = lookup.data.id;
     }
-    const {error} = await supabase.from('screenings').insert({
+    var res = await db.from('screenings').insert({
         participant_id: pid,
         systolic: Number(f.systolic.value) || null,
         diastolic: Number(f.diastolic.value) || null,
@@ -468,52 +469,49 @@ async function handleSaveScreening(e){
         screening_type: f.screeningType.value,
         notes: f.notes.value
     });
-    if (error) { alert('Error: ' + error.message); return; }
-    await supabase.from('participants').update({screened: true}).eq('id', pid);
+    if (res.error) { alert('Error: ' + res.error.message); return; }
+    await db.from('participants').update({screened: true}).eq('id', pid);
     alert('Screening saved!');
     f.reset();
     switchTab('participants');
 }
 
-let dashChart;
+var dashChart;
 async function loadDashboard(){
-    const [{count:c}, {count:p}, {count:s}] = await Promise.all([
-        supabase.from('camps').select('*',{count:'exact',head:true}),
-        supabase.from('participants').select('*',{count:'exact',head:true}),
-        supabase.from('screenings').select('*',{count:'exact',head:true})
-    ]);
-    const {count:up} = await supabase.from('camps').select('*',{count:'exact',head:true}).eq('status','upcoming');
-    document.getElementById('dashCamps').textContent = c || 0;
-    document.getElementById('dashParticipants').textContent = p || 0;
-    document.getElementById('dashScreenings').textContent = s || 0;
-    document.getElementById('dashUpcoming').textContent = up || 0;
-    const {data: camps} = await supabase.from('camps').select('name,registered_count');
+    var r1 = await db.from('camps').select('*',{count:'exact',head:true});
+    var r2 = await db.from('participants').select('*',{count:'exact',head:true});
+    var r3 = await db.from('screenings').select('*',{count:'exact',head:true});
+    var r4 = await db.from('camps').select('*',{count:'exact',head:true}).eq('status','upcoming');
+    document.getElementById('dashCamps').textContent = r1.count || 0;
+    document.getElementById('dashParticipants').textContent = r2.count || 0;
+    document.getElementById('dashScreenings').textContent = r3.count || 0;
+    document.getElementById('dashUpcoming').textContent = r4.count || 0;
+    var cd = await db.from('camps').select('name,registered_count');
     if (dashChart) dashChart.destroy();
     dashChart = new Chart(document.getElementById('dashboardAttendanceChart').getContext('2d'), {
         type: 'bar',
         data: {
-            labels: (camps||[]).map(c => c.name.slice(0,12)),
-            datasets: [{label:'Registered', data:(camps||[]).map(c => c.registered_count||0), backgroundColor:'#3b82f6', borderRadius:6}]
+            labels: (cd.data||[]).map(function(c){ return c.name.slice(0,12); }),
+            datasets: [{label:'Registered', data:(cd.data||[]).map(function(c){ return c.registered_count||0; }), backgroundColor:'#3b82f6', borderRadius:6}]
         },
         options: {responsive:true, maintainAspectRatio:false}
     });
 }
 
-let reportsChart;
+var reportsChart;
 async function renderReportsChart(){
-    const {data: camps} = await supabase.from('camps').select('name,registered_count');
+    var cd = await db.from('camps').select('name,registered_count');
     if (reportsChart) reportsChart.destroy();
     reportsChart = new Chart(document.getElementById('reportsBarChart').getContext('2d'), {
         type: 'line',
         data: {
-            labels: (camps||[]).map(c => c.name.slice(0,10)),
-            datasets: [{label:'Registered', data:(camps||[]).map(c => c.registered_count||0), borderColor:'#0d9488', tension:0.3}]
+            labels: (cd.data||[]).map(function(c){ return c.name.slice(0,10); }),
+            datasets: [{label:'Registered', data:(cd.data||[]).map(function(c){ return c.registered_count||0; }), borderColor:'#0d9488', tension:0.3}]
         },
         options: {responsive:true, maintainAspectRatio:false}
     });
 }
 
-// Initialize on load
 loadLandingStats();
 </script>
 </body>
