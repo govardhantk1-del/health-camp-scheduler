@@ -9,12 +9,12 @@
 tailwind.config = {
 theme: { extend: {
 colors: {
-brand: { 50:'#eef6ff',100:'#d9ecff',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',800:'#1e40af' },
+brand: { 50:'#eef6ff',100:'#d9ecff',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8' },
 teal: { 50:'#effcf9',500:'#14b8a6',600:'#0d9488' },
 ink: { 900:'#0f172a',700:'#334155',500:'#64748b' }
 },
 fontFamily: { sans: ['Inter','sans-serif'] },
-boxShadow: { soft:'0 4px 20px -4px rgba(15,23,42,0.08)', card:'0 1px 3px rgba(15,23,42,0.04), 0 8px 24px -8px rgba(15,23,42,0.08)' }
+boxShadow: { card:'0 1px 3px rgba(15,23,42,0.04), 0 8px 24px -8px rgba(15,23,42,0.08)' }
 }}
 }
 </script>
@@ -24,24 +24,21 @@ boxShadow: { soft:'0 4px 20px -4px rgba(15,23,42,0.08)', card:'0 1px 3px rgba(15
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 body { font-family: 'Inter', sans-serif; }
-.custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-.custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
 .fade-in { animation: fadeIn .25s ease-out; }
 @keyframes fadeIn { from { opacity:0; transform: translateY(4px);} to {opacity:1; transform:none;} }
 .metric-card { transition: transform .2s ease, box-shadow .2s ease; }
 .metric-card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -12px rgba(15,23,42,0.15); }
-.nav-pill { position: relative; }
-.nav-pill.active::after { content:''; position:absolute; left:12px; right:12px; bottom:-1px; height:2px; background:#2563eb; border-radius:2px; }
+.custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
 </style>
 </head>
 <body class="h-full flex flex-col text-ink-900 antialiased bg-slate-50">
 
-<!-- ============ TOPBAR ============ -->
 <header class="bg-white border-b border-slate-200 sticky top-0 z-40">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="flex justify-between items-center h-16">
 <div class="flex items-center space-x-3">
-<div class="p-2 bg-brand-600 rounded-xl text-white shadow-md shadow-brand-500/20">
+<div class="p-2 bg-brand-600 rounded-xl text-white shadow-md">
 <i data-lucide="heart-pulse" class="w-6 h-6"></i>
 </div>
 <div>
@@ -49,19 +46,16 @@ body { font-family: 'Inter', sans-serif; }
 <span class="text-xs text-brand-600 font-medium">Screening Camp Scheduler</span>
 </div>
 </div>
-
 <nav class="hidden lg:flex items-center space-x-1">
-<button onclick="switchTab('landing')" id="nav-landing" class="nav-btn nav-pill px-3 py-2 rounded-lg text-sm font-medium text-brand-600">Home</button>
-<button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn nav-pill px-3 py-2 rounded-lg text-sm font-medium text-ink-700 hover:text-brand-600">Dashboard</button>
-<button onclick="switchTab('camps')" id="nav-camps" class="nav-btn nav-pill px-3 py-2 rounded-lg text-sm font-medium text-ink-700 hover:text-brand-600">Camps</button>
-<button onclick="switchTab('participants')" id="nav-participants" class="nav-btn nav-pill px-3 py-2 rounded-lg text-sm font-medium text-ink-700 hover:text-brand-600">Participants</button>
-<button onclick="switchTab('screening')" id="nav-screening" class="nav-btn nav-pill px-3 py-2 rounded-lg text-sm font-medium text-ink-700 hover:text-brand-600">Screening</button>
-<button onclick="switchTab('attendance')" id="nav-attendance" class="nav-btn nav-pill px-3 py-2 rounded-lg text-sm font-medium text-ink-700 hover:text-brand-600">Attendance</button>
-<button onclick="switchTab('reports')" id="nav-reports" class="nav-btn nav-pill px-3 py-2 rounded-lg text-sm font-medium text-ink-700 hover:text-brand-600">Reports</button>
+<button onclick="switchTab('landing')" id="nav-landing" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-brand-600">Home</button>
+<button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-ink-700 hover:text-brand-600">Dashboard</button>
+<button onclick="switchTab('camps')" id="nav-camps" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-ink-700 hover:text-brand-600">Camps</button>
+<button onclick="switchTab('participants')" id="nav-participants" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-ink-700 hover:text-brand-600">Participants</button>
+<button onclick="switchTab('screening')" id="nav-screening" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-ink-700 hover:text-brand-600">Screening</button>
+<button onclick="switchTab('attendance')" id="nav-attendance" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-ink-700 hover:text-brand-600">Attendance</button>
+<button onclick="switchTab('reports')" id="nav-reports" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-ink-700 hover:text-brand-600">Reports</button>
 </nav>
-
 <div class="flex items-center space-x-2">
-<!-- Language switcher -->
 <div class="relative">
 <button onclick="toggleLangMenu()" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-ink-700 hover:bg-slate-100 border border-slate-200">
 <i data-lucide="globe" class="w-4 h-4"></i>
@@ -70,8 +64,8 @@ body { font-family: 'Inter', sans-serif; }
 </button>
 <div id="langMenu" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-xl shadow-lg border border-slate-200 py-1 z-50">
 <button onclick="setLang('en')" class="w-full text-left px-4 py-2 text-sm hover:bg-slate-50">English</button>
-<button onclick="setLang('kn')" class="w-full text-left px-4 py-2 text-sm hover:bg-slate-50">ಕನ್ನಡ</button>
-<button onclick="setLang('hi')" class="w-full text-left px-4 py-2 text-sm hover:bg-slate-50">हिन्दी</button>
+<button onclick="setLang('kn')" class="w-full text-left px-4 py-2 text-sm hover:bg-slate-50">Kannada</button>
+<button onclick="setLang('hi')" class="w-full text-left px-4 py-2 text-sm hover:bg-slate-50">Hindi</button>
 </div>
 </div>
 <button onclick="switchTab('notifications')" class="relative p-2 rounded-full text-ink-500 hover:bg-slate-100">
@@ -101,36 +95,36 @@ body { font-family: 'Inter', sans-serif; }
 
 <main class="flex-grow">
 
-<!-- ============ LANDING ============ -->
 <section id="page-landing" class="tab-content">
 <div class="relative bg-gradient-to-b from-brand-50 via-white to-white pt-12 pb-24 border-b border-slate-100 overflow-hidden">
 <div class="absolute -top-24 -right-24 w-96 h-96 bg-brand-100/60 rounded-full blur-3xl"></div>
-<div class="absolute top-32 -left-24 w-72 h-72 bg-teal-50 rounded-full blur-3xl"></div>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
 <div class="grid lg:grid-cols-12 gap-12 items-center">
 <div class="lg:col-span-6 space-y-6 text-center lg:text-left">
 <span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-semibold bg-brand-100 text-brand-700">
-<i data-lucide="shield-check" class="w-4 h-4"></i> <span data-i18n="hero_badge">Trusted Healthcare Platform</span>
+<i data-lucide="shield-check" class="w-4 h-4"></i>
+<span data-i18n="hero_badge">Trusted Healthcare Platform</span>
 </span>
 <h1 class="text-4xl sm:text-5xl font-extrabold text-ink-900 tracking-tight leading-tight">
-<span data-i18n="hero_title_1">Connecting Communities With</span>
+<span data-i18n="hero_title_1">Connecting Communities With </span>
 <span class="text-brand-600" data-i18n="hero_title_2">Better Health Screening</span>
 </h1>
 <p class="text-lg text-ink-500 leading-relaxed max-w-xl mx-auto lg:mx-0" data-i18n="hero_desc">
-Schedule community health camps, manage registrations, track attendance, and organize blood-pressure and diabetes screening activities — all from one platform.
+Schedule community health camps, manage registrations, track attendance, and organize blood-pressure and diabetes screening activities.
 </p>
 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-<button onclick="openScheduleModal()" class="px-6 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2 transition">
-<i data-lucide="plus-circle" class="w-5 h-5"></i> <span data-i18n="schedule_camp">Schedule a Camp</span>
+<button onclick="openScheduleModal()" class="px-6 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl shadow-lg flex items-center justify-center gap-2 transition">
+<i data-lucide="plus-circle" class="w-5 h-5"></i>
+<span data-i18n="schedule_camp">Schedule a Camp</span>
 </button>
-<button onclick="switchTab('camps')" class="px-6 py-3.5 bg-white border border-slate-300 text-ink-700 hover:bg-slate-50 font-semibold rounded-xl shadow-sm flex items-center justify-center gap-2 transition">
-<i data-lucide="search" class="w-5 h-5"></i> <span data-i18n="find_camp">Find a Screening Camp</span>
+<button onclick="switchTab('camps')" class="px-6 py-3.5 bg-white border border-slate-300 text-ink-700 hover:bg-slate-50 font-semibold rounded-xl shadow-sm flex items-center justify-center gap-2">
+<i data-lucide="search" class="w-5 h-5"></i>
+<span data-i18n="find_camp">Find a Camp</span>
 </button>
 </div>
 </div>
-
 <div class="lg:col-span-6">
-<div class="bg-white p-6 rounded-3xl shadow-card border border-slate-100 relative">
+<div class="bg-white p-6 rounded-3xl shadow-card border border-slate-100">
 <div class="flex items-center justify-between pb-4 border-b border-slate-100">
 <div class="flex items-center gap-3">
 <div class="w-11 h-11 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center">
@@ -138,7 +132,7 @@ Schedule community health camps, manage registrations, track attendance, and org
 </div>
 <div>
 <h4 class="font-semibold text-ink-900" data-i18n="preview_camp_title">Community Health Camp</h4>
-<p class="text-xs text-ink-500">KR Puram, Bengaluru • Today</p>
+<p class="text-xs text-ink-500">KR Puram, Bengaluru</p>
 </div>
 </div>
 <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-50 text-emerald-700">Active</span>
@@ -198,22 +192,21 @@ Schedule community health camps, manage registrations, track attendance, and org
 </div>
 </div>
 
-<!-- Features -->
 <div class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="text-center max-w-3xl mx-auto mb-14">
-<h2 class="text-3xl font-bold text-ink-900" data-i18n="features_title">Everything You Need to Manage Health Camps</h2>
-<p class="text-ink-500 mt-3" data-i18n="features_sub">Streamlined digital tools designed for preventive health drives.</p>
+<h2 class="text-3xl font-bold text-ink-900" data-i18n="features_title">Everything You Need</h2>
+<p class="text-ink-500 mt-3" data-i18n="features_sub">Streamlined digital tools for preventive health drives.</p>
 </div>
 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 <div class="bg-white p-6 rounded-2xl border border-slate-100 hover:shadow-card transition">
 <div class="w-12 h-12 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center mb-4"><i data-lucide="calendar-plus" class="w-6 h-6"></i></div>
 <h3 class="font-semibold text-lg text-ink-900 mb-2" data-i18n="f1_t">Camp Scheduling</h3>
-<p class="text-sm text-ink-500" data-i18n="f1_d">Create and manage community screening camps.</p>
+<p class="text-sm text-ink-500" data-i18n="f1_d">Create and manage screening camps.</p>
 </div>
 <div class="bg-white p-6 rounded-2xl border border-slate-100 hover:shadow-card transition">
 <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center mb-4"><i data-lucide="user-plus" class="w-6 h-6"></i></div>
 <h3 class="font-semibold text-lg text-ink-900 mb-2" data-i18n="f2_t">Participant Registration</h3>
-<p class="text-sm text-ink-500" data-i18n="f2_d">Allow members to register for camps.</p>
+<p class="text-sm text-ink-500" data-i18n="f2_d">Members register for camps.</p>
 </div>
 <div class="bg-white p-6 rounded-2xl border border-slate-100 hover:shadow-card transition">
 <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4"><i data-lucide="check-square" class="w-6 h-6"></i></div>
@@ -223,22 +216,21 @@ Schedule community health camps, manage registrations, track attendance, and org
 <div class="bg-white p-6 rounded-2xl border border-slate-100 hover:shadow-card transition">
 <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4"><i data-lucide="clipboard-list" class="w-6 h-6"></i></div>
 <h3 class="font-semibold text-lg text-ink-900 mb-2" data-i18n="f4_t">Screening Records</h3>
-<p class="text-sm text-ink-500" data-i18n="f4_d">Organize BP and diabetes information.</p>
+<p class="text-sm text-ink-500" data-i18n="f4_d">Organize BP and diabetes data.</p>
 </div>
 <div class="bg-white p-6 rounded-2xl border border-slate-100 hover:shadow-card transition">
 <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4"><i data-lucide="bar-chart-2" class="w-6 h-6"></i></div>
 <h3 class="font-semibold text-lg text-ink-900 mb-2" data-i18n="f5_t">Reports & Analytics</h3>
-<p class="text-sm text-ink-500" data-i18n="f5_d">View performance with visual reports.</p>
+<p class="text-sm text-ink-500" data-i18n="f5_d">View performance reports.</p>
 </div>
 <div class="bg-white p-6 rounded-2xl border border-slate-100 hover:shadow-card transition">
 <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center mb-4"><i data-lucide="bell" class="w-6 h-6"></i></div>
 <h3 class="font-semibold text-lg text-ink-900 mb-2" data-i18n="f6_t">Smart Notifications</h3>
-<p class="text-sm text-ink-500" data-i18n="f6_d">Keep staff and participants informed.</p>
+<p class="text-sm text-ink-500" data-i18n="f6_d">Keep everyone informed.</p>
 </div>
 </div>
 </div>
 
-<!-- How It Works -->
 <div class="bg-slate-100/60 py-16 border-y border-slate-200">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <h2 class="text-2xl font-bold text-ink-900 text-center mb-12" data-i18n="how_title">How It Works</h2>
@@ -246,72 +238,46 @@ Schedule community health camps, manage registrations, track attendance, and org
 <div class="bg-white p-6 rounded-2xl border border-slate-100 text-center">
 <span class="text-3xl font-extrabold text-brand-600 block mb-2">01</span>
 <h4 class="font-bold text-ink-900 mb-1" data-i18n="h1">Schedule</h4>
-<p class="text-xs text-ink-500" data-i18n="h1d">Create a screening camp.</p>
+<p class="text-xs text-ink-500" data-i18n="h1d">Create a camp.</p>
 </div>
 <div class="bg-white p-6 rounded-2xl border border-slate-100 text-center">
 <span class="text-3xl font-extrabold text-brand-600 block mb-2">02</span>
 <h4 class="font-bold text-ink-900 mb-1" data-i18n="h2">Register</h4>
-<p class="text-xs text-ink-500" data-i18n="h2d">Members sign up for a camp.</p>
+<p class="text-xs text-ink-500" data-i18n="h2d">Members sign up.</p>
 </div>
 <div class="bg-white p-6 rounded-2xl border border-slate-100 text-center">
 <span class="text-3xl font-extrabold text-brand-600 block mb-2">03</span>
 <h4 class="font-bold text-ink-900 mb-1" data-i18n="h3">Screen</h4>
-<p class="text-xs text-ink-500" data-i18n="h3d">Staff perform BP and diabetes tests.</p>
+<p class="text-xs text-ink-500" data-i18n="h3d">BP and diabetes tests.</p>
 </div>
 <div class="bg-white p-6 rounded-2xl border border-slate-100 text-center">
 <span class="text-3xl font-extrabold text-brand-600 block mb-2">04</span>
-<h4 class="font-bold text-ink-900 mb-1" data-i18n="h4">Track & Report</h4>
-<p class="text-xs text-ink-500" data-i18n="h4d">Record attendance and reports.</p>
+<h4 class="font-bold text-ink-900 mb-1" data-i18n="h4">Track</h4>
+<p class="text-xs text-ink-500" data-i18n="h4d">Record and report.</p>
 </div>
 </div>
 </div>
 </div>
 
-<!-- CTA -->
 <div class="bg-brand-600 text-white py-14">
 <div class="max-w-4xl mx-auto text-center px-4">
 <h2 class="text-3xl font-bold mb-3" data-i18n="cta_title">Ready to Organize Your Next Health Camp?</h2>
-<p class="text-brand-100 mb-6" data-i18n="cta_desc">Make community screening simpler, faster, and more organized.</p>
+<p class="text-brand-100 mb-6" data-i18n="cta_desc">Make community screening simpler and faster.</p>
 <button onclick="openScheduleModal()" class="px-8 py-3 bg-white text-brand-700 font-bold rounded-xl shadow-lg hover:bg-slate-50 transition" data-i18n="schedule_camp">Schedule a Camp</button>
 </div>
 </div>
 </section>
 
-<!-- ============ DASHBOARD ============ -->
 <section id="page-dashboard" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 fade-in">
 <div class="mb-6">
 <h1 class="text-2xl font-bold text-ink-900" data-i18n="dash_title">Dashboard</h1>
-<p class="text-sm text-ink-500" data-i18n="dash_sub">Overview of your community health screening activities.</p>
+<p class="text-sm text-ink-500" data-i18n="dash_sub">Overview of your activities.</p>
 </div>
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-card">
-<div class="flex items-center justify-between mb-2">
-<span class="text-xs font-medium text-ink-500" data-i18n="dash_camps">Total Camps</span>
-<i data-lucide="calendar" class="w-4 h-4 text-brand-500"></i>
-</div>
-<p id="dashCamps" class="text-2xl font-bold text-ink-900">0</p>
-</div>
-<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-card">
-<div class="flex items-center justify-between mb-2">
-<span class="text-xs font-medium text-ink-500" data-i18n="dash_upcoming">Upcoming</span>
-<i data-lucide="clock" class="w-4 h-4 text-amber-500"></i>
-</div>
-<p id="dashUpcoming" class="text-2xl font-bold text-ink-900">0</p>
-</div>
-<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-card">
-<div class="flex items-center justify-between mb-2">
-<span class="text-xs font-medium text-ink-500" data-i18n="dash_parts">Participants</span>
-<i data-lucide="users" class="w-4 h-4 text-teal-500"></i>
-</div>
-<p id="dashParticipants" class="text-2xl font-bold text-ink-900">0</p>
-</div>
-<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-card">
-<div class="flex items-center justify-between mb-2">
-<span class="text-xs font-medium text-ink-500" data-i18n="dash_screens">Screenings</span>
-<i data-lucide="activity" class="w-4 h-4 text-emerald-500"></i>
-</div>
-<p id="dashScreenings" class="text-2xl font-bold text-ink-900">0</p>
-</div>
+<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-card"><span class="text-xs font-medium text-ink-500" data-i18n="dash_camps">Total Camps</span><p id="dashCamps" class="text-2xl font-bold text-ink-900 mt-1">0</p></div>
+<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-card"><span class="text-xs font-medium text-ink-500" data-i18n="dash_upcoming">Upcoming</span><p id="dashUpcoming" class="text-2xl font-bold text-ink-900 mt-1">0</p></div>
+<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-card"><span class="text-xs font-medium text-ink-500" data-i18n="dash_parts">Participants</span><p id="dashParticipants" class="text-2xl font-bold text-ink-900 mt-1">0</p></div>
+<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-card"><span class="text-xs font-medium text-ink-500" data-i18n="dash_screens">Screenings</span><p id="dashScreenings" class="text-2xl font-bold text-ink-900 mt-1">0</p></div>
 </div>
 <div class="grid lg:grid-cols-12 gap-6">
 <div class="lg:col-span-8 bg-white p-5 rounded-2xl border border-slate-100 shadow-card">
@@ -319,21 +285,21 @@ Schedule community health camps, manage registrations, track attendance, and org
 <div class="h-64"><canvas id="dashboardAttendanceChart"></canvas></div>
 </div>
 <div class="lg:col-span-4 bg-white p-5 rounded-2xl border border-slate-100 shadow-card">
-<h3 class="font-bold text-ink-900 text-sm mb-4" data-i18n="chart_breakdown">Screening Breakdown</h3>
+<h3 class="font-bold text-ink-900 text-sm mb-4" data-i18n="chart_breakdown">Breakdown</h3>
 <div class="h-64"><canvas id="dashboardDonutChart"></canvas></div>
 </div>
 </div>
 </section>
 
-<!-- ============ CAMPS ============ -->
 <section id="page-camps" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 fade-in">
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
 <div>
 <h1 class="text-2xl font-bold text-ink-900" data-i18n="camps_title">Health Screening Camps</h1>
-<p class="text-sm text-ink-500" data-i18n="camps_sub">Create, manage and monitor community screening camps.</p>
+<p class="text-sm text-ink-500" data-i18n="camps_sub">Manage community screening camps.</p>
 </div>
-<button onclick="openScheduleModal()" class="px-4 py-2.5 bg-brand-600 text-white font-medium rounded-xl hover:bg-brand-700 flex items-center gap-2 shadow-md shadow-brand-500/20">
-<i data-lucide="plus" class="w-4 h-4"></i> <span data-i18n="new_camp">Schedule New Camp</span>
+<button onclick="openScheduleModal()" class="px-4 py-2.5 bg-brand-600 text-white font-medium rounded-xl hover:bg-brand-700 flex items-center gap-2">
+<i data-lucide="plus" class="w-4 h-4"></i>
+<span data-i18n="new_camp">Schedule New Camp</span>
 </button>
 </div>
 <div class="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-card">
@@ -341,7 +307,7 @@ Schedule community health camps, manage registrations, track attendance, and org
 <table class="w-full text-left text-sm text-ink-700">
 <thead class="bg-slate-50 border-b border-slate-100 font-semibold text-ink-900 uppercase text-xs tracking-wider">
 <tr>
-<th class="p-4" data-i18n="th_camp">Camp Name</th>
+<th class="p-4" data-i18n="th_camp">Name</th>
 <th class="p-4" data-i18n="th_location">Location</th>
 <th class="p-4" data-i18n="th_date">Date & Time</th>
 <th class="p-4" data-i18n="th_reg">Registered</th>
@@ -350,48 +316,47 @@ Schedule community health camps, manage registrations, track attendance, and org
 </tr>
 </thead>
 <tbody id="campsTableBody" class="divide-y divide-slate-100">
-<tr><td colspan="6" class="p-6 text-center text-ink-500">Loading camps...</td></tr>
+<tr><td colspan="6" class="p-6 text-center text-ink-500">Loading...</td></tr>
 </tbody>
 </table>
 </div>
 </div>
 </section>
 
-<!-- ============ SCHEDULE MODAL ============ -->
 <div id="scheduleModal" class="fixed inset-0 bg-ink-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
 <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 custom-scrollbar">
 <div class="flex justify-between items-center pb-4 border-b border-slate-100 mb-4">
-<h3 class="text-xl font-bold text-ink-900" data-i18n="modal_title">Schedule New Health Camp</h3>
+<h3 class="text-xl font-bold text-ink-900" data-i18n="modal_title">Schedule New Camp</h3>
 <button onclick="closeScheduleModal()" class="text-ink-500 hover:text-ink-900"><i data-lucide="x" class="w-5 h-5"></i></button>
 </div>
 <form onsubmit="handleScheduleCamp(event)" class="space-y-4 text-sm">
 <div>
 <label class="block text-xs font-semibold text-ink-700 mb-1" data-i18n="f_name">Camp Name</label>
-<input type="text" name="name" required placeholder="Community Health Drive" class="w-full border border-slate-200 rounded-xl p-2.5 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+<input type="text" name="name" required class="w-full border border-slate-200 rounded-xl p-2.5 focus:ring-2 focus:ring-brand-500 focus:outline-none">
 </div>
 <div class="grid grid-cols-2 gap-4">
 <div>
 <label class="block text-xs font-semibold text-ink-700 mb-1" data-i18n="f_date">Date</label>
-<input type="date" name="date" required class="w-full border border-slate-200 rounded-xl p-2.5 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+<input type="date" name="date" required class="w-full border border-slate-200 rounded-xl p-2.5">
 </div>
 <div>
 <label class="block text-xs font-semibold text-ink-700 mb-1" data-i18n="f_max">Max Participants</label>
-<input type="number" name="maxParticipants" required placeholder="100" class="w-full border border-slate-200 rounded-xl p-2.5 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+<input type="number" name="maxParticipants" required class="w-full border border-slate-200 rounded-xl p-2.5">
 </div>
 </div>
 <div class="grid grid-cols-2 gap-4">
 <div>
 <label class="block text-xs font-semibold text-ink-700 mb-1" data-i18n="f_start">Start Time</label>
-<input type="time" name="startTime" required class="w-full border border-slate-200 rounded-xl p-2.5 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+<input type="time" name="startTime" required class="w-full border border-slate-200 rounded-xl p-2.5">
 </div>
 <div>
 <label class="block text-xs font-semibold text-ink-700 mb-1" data-i18n="f_end">End Time</label>
-<input type="time" name="endTime" required class="w-full border border-slate-200 rounded-xl p-2.5 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+<input type="time" name="endTime" required class="w-full border border-slate-200 rounded-xl p-2.5">
 </div>
 </div>
 <div>
 <label class="block text-xs font-semibold text-ink-700 mb-1" data-i18n="f_location">Location</label>
-<input type="text" name="location" required placeholder="Community Center, Hall 2, Bengaluru" class="w-full border border-slate-200 rounded-xl p-2.5 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+<input type="text" name="location" required class="w-full border border-slate-200 rounded-xl p-2.5">
 </div>
 <div class="pt-4 flex justify-end gap-3 border-t border-slate-100">
 <button type="button" onclick="closeScheduleModal()" class="px-4 py-2 border border-slate-200 rounded-xl text-ink-700 hover:bg-slate-50 font-medium" data-i18n="cancel">Cancel</button>
@@ -401,15 +366,15 @@ Schedule community health camps, manage registrations, track attendance, and org
 </div>
 </div>
 
-<!-- ============ PARTICIPANTS ============ -->
 <section id="page-participants" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 fade-in">
 <div class="flex justify-between items-center mb-6">
 <div>
 <h1 class="text-2xl font-bold text-ink-900" data-i18n="parts_title">Participants</h1>
 <p class="text-sm text-ink-500" data-i18n="parts_sub">Manage registered community members.</p>
 </div>
-<button onclick="switchTab('registration')" class="px-4 py-2.5 bg-brand-600 text-white font-medium rounded-xl hover:bg-brand-700 flex items-center gap-2 shadow-md shadow-brand-500/20">
-<i data-lucide="user-plus" class="w-4 h-4"></i> <span data-i18n="reg_participant">Register Participant</span>
+<button onclick="switchTab('registration')" class="px-4 py-2.5 bg-brand-600 text-white font-medium rounded-xl hover:bg-brand-700 flex items-center gap-2">
+<i data-lucide="user-plus" class="w-4 h-4"></i>
+<span data-i18n="reg_participant">Register Participant</span>
 </button>
 </div>
 <div class="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-card">
@@ -429,7 +394,6 @@ Schedule community health camps, manage registrations, track attendance, and org
 </div>
 </section>
 
-<!-- ============ REGISTRATION ============ -->
 <section id="page-registration" class="tab-content hidden max-w-3xl mx-auto px-4 py-8 fade-in">
 <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-100 shadow-card">
 <h1 class="text-2xl font-bold text-ink-900 mb-1" data-i18n="reg_title">Register for Health Screening</h1>
@@ -438,26 +402,26 @@ Schedule community health camps, manage registrations, track attendance, and org
 <div class="grid sm:grid-cols-2 gap-4">
 <div>
 <label class="block text-xs font-semibold text-ink-700 mb-1" data-i18n="f_fullname">Full Name</label>
-<input type="text" name="name" required class="w-full border border-slate-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
+<input type="text" name="name" required class="w-full border border-slate-200 rounded-xl p-2.5 text-sm">
 </div>
 <div>
 <label class="block text-xs font-semibold text-ink-700 mb-1" data-i18n="f_age">Age</label>
-<input type="number" name="age" required class="w-full border border-slate-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
+<input type="number" name="age" required class="w-full border border-slate-200 rounded-xl p-2.5 text-sm">
 </div>
 </div>
 <div class="grid sm:grid-cols-2 gap-4">
 <div>
 <label class="block text-xs font-semibold text-ink-700 mb-1" data-i18n="f_phone">Phone</label>
-<input type="tel" name="phone" required class="w-full border border-slate-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
+<input type="tel" name="phone" required class="w-full border border-slate-200 rounded-xl p-2.5 text-sm">
 </div>
 <div>
 <label class="block text-xs font-semibold text-ink-700 mb-1" data-i18n="f_camp">Select Camp</label>
-<select name="campId" id="registrationCampSelect" class="w-full border border-slate-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
+<select name="campId" id="registrationCampSelect" class="w-full border border-slate-200 rounded-xl p-2.5 text-sm">
 <option value="">Loading...</option>
 </select>
 </div>
 </div>
-<button type="submit" class="w-full py-3 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 shadow-md shadow-brand-500/20" data-i18n="complete_reg">Complete Registration</button>
+<button type="submit" class="w-full py-3 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 shadow-md" data-i18n="complete_reg">Complete Registration</button>
 </form>
 <div id="registrationSuccess" class="hidden mt-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-center">
 <h3 class="font-bold text-emerald-900" data-i18n="reg_success">Registration Successful</h3>
@@ -466,7 +430,6 @@ Schedule community health camps, manage registrations, track attendance, and org
 </div>
 </section>
 
-<!-- ============ ATTENDANCE ============ -->
 <section id="page-attendance" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 fade-in">
 <div class="mb-6">
 <h1 class="text-2xl font-bold text-ink-900" data-i18n="att_title">Attendance</h1>
@@ -489,7 +452,6 @@ Schedule community health camps, manage registrations, track attendance, and org
 </div>
 </section>
 
-<!-- ============ SCREENING ============ -->
 <section id="page-screening" class="tab-content hidden max-w-4xl mx-auto px-4 py-8 fade-in">
 <div class="mb-6">
 <h1 class="text-2xl font-bold text-ink-900" data-i18n="scr_title">Health Screening Form</h1>
@@ -498,11 +460,12 @@ Schedule community health camps, manage registrations, track attendance, and org
 <form onsubmit="handleSaveScreening(event)" class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-100 shadow-card space-y-6">
 <div>
 <label class="block text-xs font-semibold text-ink-700 mb-1" data-i18n="f_pid">Participant ID (UUID or Registration ID)</label>
-<input type="text" name="participantId" required placeholder="e.g. CHC-2026-00001" class="w-full border border-slate-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
+<input type="text" name="participantId" required placeholder="e.g. CHC-2026-00001" class="w-full border border-slate-200 rounded-xl p-2.5 text-sm">
 </div>
 <div>
 <h3 class="text-sm font-bold text-ink-900 uppercase tracking-wider mb-3 flex items-center gap-2">
-<i data-lucide="heart" class="w-4 h-4 text-rose-500"></i> <span data-i18n="scr_bp">Blood Pressure</span>
+<i data-lucide="heart" class="w-4 h-4 text-rose-500"></i>
+<span data-i18n="scr_bp">Blood Pressure</span>
 </h3>
 <div class="grid grid-cols-2 gap-4">
 <div>
@@ -517,7 +480,8 @@ Schedule community health camps, manage registrations, track attendance, and org
 </div>
 <div>
 <h3 class="text-sm font-bold text-ink-900 uppercase tracking-wider mb-3 flex items-center gap-2">
-<i data-lucide="droplet" class="w-4 h-4 text-teal-500"></i> <span data-i18n="scr_dm">Diabetes Screening</span>
+<i data-lucide="droplet" class="w-4 h-4 text-teal-500"></i>
+<span data-i18n="scr_dm">Diabetes Screening</span>
 </h3>
 <div class="grid grid-cols-2 gap-4">
 <div>
@@ -542,26 +506,22 @@ Schedule community health camps, manage registrations, track attendance, and org
 <span data-i18n="scr_disclaimer">Screening results should be reviewed by qualified healthcare professionals.</span>
 </div>
 <div class="flex justify-end">
-<button type="submit" class="px-6 py-2.5 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 shadow-md shadow-brand-500/20" data-i18n="save_screening">Save Screening</button>
+<button type="submit" class="px-6 py-2.5 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 shadow-md" data-i18n="save_screening">Save Screening</button>
 </div>
 </form>
 </section>
 
-<!-- ============ REPORTS ============ -->
 <section id="page-reports" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 fade-in">
-<div class="flex justify-between items-center mb-6">
-<div>
+<div class="mb-6">
 <h1 class="text-2xl font-bold text-ink-900" data-i18n="rep_title">Reports & Analytics</h1>
 <p class="text-sm text-ink-500" data-i18n="rep_sub">Analyze community health screening activities.</p>
 </div>
-</div>
-<div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-card mb-6">
+<div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-card">
 <h3 class="font-bold text-ink-900 text-sm mb-4" data-i18n="rep_chart">Camp Participation Volume</h3>
 <div class="h-72"><canvas id="reportsBarChart"></canvas></div>
 </div>
 </section>
 
-<!-- ============ NOTIFICATIONS ============ -->
 <section id="page-notifications" class="tab-content hidden max-w-4xl mx-auto px-4 py-8 fade-in">
 <h1 class="text-2xl font-bold text-ink-900 mb-6" data-i18n="notif_title">Notifications</h1>
 <div class="bg-white rounded-2xl border border-slate-100 divide-y divide-slate-100 shadow-card overflow-hidden">
@@ -582,7 +542,6 @@ Schedule community health camps, manage registrations, track attendance, and org
 </div>
 </section>
 
-<!-- ============ PROFILE ============ -->
 <section id="page-profile" class="tab-content hidden max-w-4xl mx-auto px-4 py-8 fade-in">
 <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-100 shadow-card">
 <div class="flex items-center gap-4 pb-6 border-b border-slate-100 mb-6">
@@ -625,26 +584,25 @@ Schedule community health camps, manage registrations, track attendance, and org
 </footer>
 
 <script>
-// ============================================================
-// Supabase
-// ============================================================
+/* ==========================================================
+Supabase setup
+========================================================== */
 var SUPABASE_URL = 'https://nqfelltkkmmiosvndifl.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5xZmVsbHRra21taW9zdm5kaWZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExMzExOTUsImV4cCI6MjEwNjcwNzE5NX0.cLHe0NVu-sGQv4qdJ74kS_AYqlFoqvKFC91Fsj4UHa0';
 var db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-lucide.createIcons();
-
-// ============================================================
-// i18n — translations
-// ============================================================
+/* ==========================================================
+Translations (Kannada and Hindi use Unicode escapes so
+no special characters can break the JS syntax)
+========================================================== */
 var TRANSLATIONS = {
 en: {
 hero_badge:'Trusted Healthcare Platform',
 hero_title_1:'Connecting Communities With ',
 hero_title_2:'Better Health Screening',
-hero_desc:'Schedule community health camps, manage registrations, track attendance, and organize blood-pressure and diabetes screening activities — all from one platform.',
+hero_desc:'Schedule community health camps, manage registrations, track attendance, and organize blood-pressure and diabetes screening activities.',
 schedule_camp:'Schedule a Camp',
-find_camp:'Find a Screening Camp',
+find_camp:'Find a Camp',
 preview_camp_title:'Community Health Camp',
 participants:'Participants',
 camps:'Camps',
@@ -654,32 +612,33 @@ stat_camps:'Health Camps',
 stat_participants:'Registered',
 stat_screenings:'Screenings',
 stat_upcoming:'Upcoming',
-features_title:'Everything You Need to Manage Health Camps',
-features_sub:'Streamlined digital tools designed for preventive health drives.',
-f1_t:'Camp Scheduling', f1_d:'Create and manage community screening camps.',
-f2_t:'Participant Registration', f2_d:'Allow members to register for camps.',
+features_title:'Everything You Need',
+features_sub:'Streamlined digital tools for preventive health drives.',
+f1_t:'Camp Scheduling', f1_d:'Create and manage screening camps.',
+f2_t:'Participant Registration', f2_d:'Members register for camps.',
 f3_t:'Attendance Tracking', f3_d:'Record attendance in real-time.',
-f4_t:'Screening Records', f4_d:'Organize BP and diabetes information.',
-f5_t:'Reports & Analytics', f5_d:'View performance with visual reports.',
-f6_t:'Smart Notifications', f6_d:'Keep staff and participants informed.',
+f4_t:'Screening Records', f4_d:'Organize BP and diabetes data.',
+f5_t:'Reports & Analytics', f5_d:'View performance reports.',
+f6_t:'Smart Notifications', f6_d:'Keep everyone informed.',
 how_title:'How It Works',
-h1:'Schedule', h1d:'Create a screening camp.',
-h2:'Register', h2d:'Members sign up for a camp.',
-h3:'Screen', h3d:'Staff perform BP and diabetes tests.',
-h4:'Track & Report', h4d:'Record attendance and reports.',
+h1:'Schedule', h1d:'Create a camp.',
+h2:'Register', h2d:'Members sign up.',
+h3:'Screen', h3d:'BP and diabetes tests.',
+h4:'Track', h4d:'Record and report.',
 cta_title:'Ready to Organize Your Next Health Camp?',
-cta_desc:'Make community screening simpler, faster, and more organized.',
+cta_desc:'Make community screening simpler and faster.',
 dash_title:'Dashboard',
-dash_sub:'Overview of your community health screening activities.',
-dash_camps:'Total Camps', dash_upcoming:'Upcoming', dash_parts:'Participants', dash_screens:'Screenings',
-chart_attendance:'Attendance Trend', chart_breakdown:'Screening Breakdown',
+dash_sub:'Overview of your activities.',
+dash_camps:'Total Camps', dash_upcoming:'Upcoming',
+dash_parts:'Participants', dash_screens:'Screenings',
+chart_attendance:'Attendance Trend', chart_breakdown:'Breakdown',
 camps_title:'Health Screening Camps',
-camps_sub:'Create, manage and monitor community screening camps.',
+camps_sub:'Manage community screening camps.',
 new_camp:'Schedule New Camp',
-th_camp:'Camp Name', th_location:'Location', th_date:'Date & Time',
+th_camp:'Name', th_location:'Location', th_date:'Date & Time',
 th_reg:'Registered', th_slots:'Slots Left', th_status:'Status',
 th_id:'ID', th_name:'Name', th_age:'Age / Phone', th_actions:'Actions',
-modal_title:'Schedule New Health Camp',
+modal_title:'Schedule New Camp',
 f_name:'Camp Name', f_date:'Date', f_max:'Max Participants',
 f_start:'Start Time', f_end:'End Time', f_location:'Location',
 cancel:'Cancel', create:'Create Camp',
@@ -711,202 +670,191 @@ msg_participant_not_found:'Participant not found',
 msg_error:'Error: '
 },
 kn: {
-hero_badge:'ವಿಶ್ವಾಸಾರ್ಹ ಆರೋಗ್ಯ ವೇದಿಕೆ',
-hero_title_1:'ಸಮುದಾಯಗಳನ್ನು ಸಂಪರ್ಕಿಸುತ್ತಿದೆ ',
-hero_title_2:'ಉತ್ತಮ ಆರೋಗ್ಯ ತಪಾಸಣೆಗೆ',
-hero_desc:'ಸಮುದಾಯ ಆರೋಗ್ಯ ಶಿಬಿರಗಳನ್ನು ನಿಗದಿಪಡಿಸಿ, ನೋಂದಣಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ, ಹಾಜರಿಯನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ.',
-schedule_camp:'ಶಿಬಿರವನ್ನು ನಿಗದಿಪಡಿಸಿ',
-find_camp:'ತಪಾಸಣಾ ಶಿಬಿರವನ್ನು ಹುಡುಕಿ',
-preview_camp_title:'ಸಮುದಾಯ ಆರೋಗ್ಯ ಶಿಬಿರ',
-participants:'ಭಾಗವಹಿಸುವವರು',
-camps:'ಶಿಬಿರಗಳು',
-bp_progress:'ರಕ್ತದೊತ್ತಡ ತಪಾಸಣೆ ಪೂರ್ಣ',
-dm_progress:'ಮಧುಮೇಹ ತಪಾಸಣೆ ಪೂರ್ಣ',
-stat_camps:'ಆರೋಗ್ಯ ಶಿಬಿರಗಳು',
-stat_participants:'ನೋಂದಾಯಿತ',
-stat_screenings:'ತಪಾಸಣೆಗಳು',
-stat_upcoming:'ಮುಂಬರುವ',
-features_title:'ಆರೋಗ್ಯ ಶಿಬಿರಗಳನ್ನು ನಿರ್ವಹಿಸಲು ಎಲ್ಲವೂ',
-features_sub:'ನಿವಾರಕ ಆರೋಗ್ಯ ಚಟುವಟಿಕೆಗಳಿಗಾಗಿ ವಿನ್ಯಾಸಗೊಳಿಸಲಾದ ಡಿಜಿಟಲ್ ಪರಿಕರಗಳು.',
-f1_t:'ಶಿಬಿರ ನಿಗದಿ', f1_d:'ಸಮುದಾಯ ತಪಾಸಣಾ ಶಿಬಿರಗಳನ್ನು ರಚಿಸಿ ಮತ್ತು ನಿರ್ವಹಿಸಿ.',
-f2_t:'ಭಾಗವಹಿಸುವವರ ನೋಂದಣಿ', f2_d:'ಸದಸ್ಯರಿಗೆ ಶಿಬಿರಗಳಿಗೆ ನೋಂದಾಯಿಸಲು ಅನುಮತಿಸಿ.',
-f3_t:'ಹಾಜರಿ ಟ್ರ್ಯಾಕಿಂಗ್', f3_d:'ನೈಜ ಸಮಯದಲ್ಲಿ ಹಾಜರಿಯನ್ನು ದಾಖಲಿಸಿ.',
-f4_t:'ತಪಾಸಣಾ ದಾಖಲೆಗಳು', f4_d:'ರಕ್ತದೊತ್ತಡ ಮತ್ತು ಮಧುಮೇಹ ಮಾಹಿತಿಯನ್ನು ಸಂಘಟಿಸಿ.',
-f5_t:'ವರದಿಗಳು ಮತ್ತು ವಿಶ್ಲೇಷಣೆ', f5_d:'ದೃಶ್ಯ ವರದಿಗಳೊಂದಿಗೆ ಕಾರ್ಯಕ್ಷಮತೆಯನ್ನು ವೀಕ್ಷಿಸಿ.',
-f6_t:'ಸ್ಮಾರ್ಟ್ ಅಧಿಸೂಚನೆಗಳು', f6_d:'ಸಿಬ್ಬಂದಿ ಮತ್ತು ಭಾಗವಹಿಸುವವರಿಗೆ ತಿಳಿಸಿ.',
-how_title:'ಇದು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ',
-h1:'ನಿಗದಿಪಡಿಸಿ', h1d:'ತಪಾಸಣಾ ಶಿಬಿರವನ್ನು ರಚಿಸಿ.',
-h2:'ನೋಂದಣಿ', h2d:'ಸದಸ್ಯರು ಶಿಬಿರಕ್ಕೆ ಸೈನ್ ಅಪ್ ಮಾಡುತ್ತಾರೆ.',
-h3:'ತಪಾಸಣೆ', h3d:'ಸಿಬ್ಬಂದಿ ರಕ್ತದೊತ್ತಡ ಮತ್ತು ಮಧುಮೇಹ ಪರೀಕ್ಷೆಗಳನ್ನು ನಿರ್ವಹಿಸುತ್ತಾರೆ.',
-h4:'ಟ್ರ್ಯಾಕ್ ಮತ್ತು ವರದಿ', h4d:'ಹಾಜರಿ ಮತ್ತು ವರದಿಗಳನ್ನು ದಾಖಲಿಸಿ.',
-cta_title:'ನಿಮ್ಮ ಮುಂದಿನ ಆರೋಗ್ಯ ಶಿಬಿರವನ್ನು ಸಂಘಟಿಸಲು ಸಿದ್ಧರಿದ್ದೀರಾ?',
-cta_desc:'ಸಮುದಾಯ ತಪಾಸಣೆಯನ್ನು ಸರಳ, ವೇಗ ಮತ್ತು ಸಂಘಟಿತಗೊಳಿಸಿ.',
-dash_title:'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್',
-dash_sub:'ನಿಮ್ಮ ಸಮುದಾಯ ಆರೋಗ್ಯ ತಪಾಸಣಾ ಚಟುವಟಿಕೆಗಳ ಅವಲೋಕನ.',
-dash_camps:'ಒಟ್ಟು ಶಿಬಿರಗಳು', dash_upcoming:'ಮುಂಬರುವ', dash_parts:'ಭಾಗವಹಿಸುವವರು', dash_screens:'ತಪಾಸಣೆಗಳು',
-chart_attendance:'ಹಾಜರಿ ಪ್ರವೃತ್ತಿ', chart_breakdown:'ತಪಾಸಣಾ ವಿಭಜನೆ',
-camps_title:'ಆರೋಗ್ಯ ತಪಾಸಣಾ ಶಿಬಿರಗಳು',
-camps_sub:'ಸಮುದಾಯ ತಪಾಸಣಾ ಶಿಬಿರಗಳನ್ನು ರಚಿಸಿ, ನಿರ್ವಹಿಸಿ.',
-new_camp:'ಹೊಸ ಶಿಬಿರವನ್ನು ನಿಗದಿಪಡಿಸಿ',
-th_camp:'ಶಿಬಿರದ ಹೆಸರು', th_location:'ಸ್ಥಳ', th_date:'ದಿನಾಂಕ ಮತ್ತು ಸಮಯ',
-th_reg:'ನೋಂದಾಯಿತ', th_slots:'ಉಳಿದ ಸ್ಥಾನಗಳು', th_status:'ಸ್ಥಿತಿ',
-th_id:'ಐಡಿ', th_name:'ಹೆಸರು', th_age:'ವಯಸ್ಸು / ಫೋನ್', th_actions:'ಕ್ರಿಯೆಗಳು',
-modal_title:'ಹೊಸ ಆರೋಗ್ಯ ಶಿಬಿರವನ್ನು ನಿಗದಿಪಡಿಸಿ',
-f_name:'ಶಿಬಿರದ ಹೆಸರು', f_date:'ದಿನಾಂಕ', f_max:'ಗರಿಷ್ಠ ಭಾಗವಹಿಸುವವರು',
-f_start:'ಪ್ರಾರಂಭ ಸಮಯ', f_end:'ಮುಕ್ತಾಯ ಸಮಯ', f_location:'ಸ್ಥಳ',
-cancel:'ರದ್ದುಮಾಡಿ', create:'ಶಿಬಿರವನ್ನು ರಚಿಸಿ',
-parts_title:'ಭಾಗವಹಿಸುವವರು', parts_sub:'ನೋಂದಾಯಿತ ಸಮುದಾಯ ಸದಸ್ಯರನ್ನು ನಿರ್ವಹಿಸಿ.',
-reg_participant:'ಭಾಗವಹಿಸುವವರನ್ನು ನೋಂದಾಯಿಸಿ',
-reg_title:'ಆರೋಗ್ಯ ತಪಾಸಣೆಗೆ ನೋಂದಾಯಿಸಿ',
-reg_sub:'ನೋಂದಣಿ ಐಡಿ ರಚಿಸಲು ವಿವರಗಳನ್ನು ನಮೂದಿಸಿ.',
-f_fullname:'ಪೂರ್ಣ ಹೆಸರು', f_age:'ವಯಸ್ಸು', f_phone:'ಫೋನ್',
-f_camp:'ಶಿಬಿರವನ್ನು ಆಯ್ಕೆಮಾಡಿ', complete_reg:'ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ',
-reg_success:'ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ',
-att_title:'ಹಾಜರಿ', att_sub:'ಭಾಗವಹಿಸುವವರನ್ನು ಹಾಜರು ಅಥವಾ ಗೈರುಹಾಜರು ಎಂದು ಗುರುತಿಸಿ.',
-scr_title:'ಆರೋಗ್ಯ ತಪಾಸಣಾ ಫಾರ್ಮ್',
-scr_sub:'ರಕ್ತದೊತ್ತಡ ಮತ್ತು ಮಧುಮೇಹ ಅಳತೆಗಳನ್ನು ದಾಖಲಿಸಿ.',
-f_pid:'ಭಾಗವಹಿಸುವವರ ಐಡಿ',
-scr_bp:'ರಕ್ತದೊತ್ತಡ', f_sys:'ಸಿಸ್ಟೊಲಿಕ್ (mmHg)', f_dia:'ಡಯಾಸ್ಟೊಲಿಕ್ (mmHg)',
-scr_dm:'ಮಧುಮೇಹ ತಪಾಸಣೆ', f_glucose:'ರಕ್ತದ ಗ್ಲುಕೋಸ್ (mg/dL)', f_type:'ತಪಾಸಣಾ ಪ್ರಕಾರ',
-f_notes:'ಟಿಪ್ಪಣಿಗಳು',
-scr_disclaimer:'ತಪಾಸಣಾ ಫಲಿತಾಂಶಗಳನ್ನು ಅರ್ಹ ಆರೋಗ್ಯ ವೃತ್ತಿಪರರು ಪರಿಶೀಲಿಸಬೇಕು.',
-save_screening:'ತಪಾಸಣೆಯನ್ನು ಉಳಿಸಿ',
-rep_title:'ವರದಿಗಳು ಮತ್ತು ವಿಶ್ಲೇಷಣೆ',
-rep_sub:'ಸಮುದಾಯ ಆರೋಗ್ಯ ತಪಾಸಣಾ ಚಟುವಟಿಕೆಗಳನ್ನು ವಿಶ್ಲೇಷಿಸಿ.',
-rep_chart:'ಶಿಬಿರ ಭಾಗವಹಿಸುವಿಕೆಯ ಪ್ರಮಾಣ',
-notif_title:'ಅಧಿಸೂಚನೆಗಳು',
-f_email:'ಇಮೇಲ್', save_changes:'ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ',
-footer_tag:'ಆರೋಗ್ಯಕರ ಸಮುದಾಯಗಳಿಗೆ ಸ್ಮಾರ್ಟ್ ನಿಗದಿ.',
-msg_camp_created:'ಶಿಬಿರ ಯಶಸ್ವಿಯಾಗಿ ರಚಿಸಲಾಗಿದೆ!',
-msg_screening_saved:'ತಪಾಸಣೆ ಉಳಿಸಲಾಗಿದೆ!',
-msg_participant_not_found:'ಭಾಗವಹಿಸುವವರು ಕಂಡುಬಂದಿಲ್ಲ',
-msg_error:'ದೋಷ: '
+hero_badge:'\u0CB5\u0CBF\u0CB6\u0CCD\u0CB5\u0CBE\u0CB8\u0CBE\u0CB0\u0CCD\u0CB9 \u0C86\u0CB0\u0CCB\u0C97\u0CCD\u0CAF \u0CB5\u0CC7\u0CA6\u0CBF\u0C95\u0CC6',
+hero_title_1:'\u0CB8\u0CAE\u0CC1\u0CA6\u0CBE\u0CAF\u0C97\u0CB3\u0CA8\u0CCD\u0CA8\u0CC1 \u0CB8\u0C82\u0CAA\u0CB0\u0CCD\u0C95\u0CBF\u0CB8\u0CC1\u0CA4\u0CCD\u0CA4\u0CBF\u0CA6\u0CC6 ',
+hero_title_2:'\u0C89\u0CA4\u0CCD\u0CA4\u0CAE \u0C86\u0CB0\u0CCB\u0C97\u0CCD\u0CAF \u0CA4\u0CAA\u0CBE\u0CB8\u0CA3\u0CC6\u0C97\u0CC6',
+hero_desc:'\u0CB8\u0CAE\u0CC1\u0CA6\u0CBE\u0CAF \u0C86\u0CB0\u0CCB\u0C97\u0CCD\u0CAF \u0CB6\u0CBF\u0CAC\u0CBF\u0CB0\u0C97\u0CB3\u0CA8\u0CCD\u0CA8\u0CC1 \u0CA8\u0CBF\u0C97\u0CA6\u0CBF\u0CAA\u0CA1\u0CBF\u0CB8\u0CBF, \u0CA8\u0CCB\u0C82\u0CA6\u0CA3\u0CBF\u0C97\u0CB3\u0CA8\u0CCD\u0CA8\u0CC1 \u0CA8\u0CBF\u0CB0\u0CCD\u0CB5\u0CB9\u0CBF\u0CB8\u0CBF.',
+schedule_camp:'\u0CB6\u0CBF\u0CAC\u0CBF\u0CB0\u0CB5\u0CA8\u0CCD\u0CA8\u0CC1 \u0CA8\u0CBF\u0C97\u0CA6\u0CBF\u0CAA\u0CA1\u0CBF\u0CB8\u0CBF',
+find_camp:'\u0CB6\u0CBF\u0CAC\u0CBF\u0CB0\u0CB5\u0CA8\u0CCD\u0CA8\u0CC1 \u0CB9\u0CC1\u0CA1\u0CC1\u0C95\u0CBF',
+preview_camp_title:'\u0CB8\u0CAE\u0CC1\u0CA6\u0CBE\u0CAF \u0C86\u0CB0\u0CCB\u0C97\u0CCD\u0CAF \u0CB6\u0CBF\u0CAC\u0CBF\u0CB0',
+participants:'\u0CAD\u0CBE\u0C97\u0CB5\u0CB9\u0CBF\u0CB8\u0CC1\u0CB5\u0CB5\u0CB0\u0CC1',
+camps:'\u0CB6\u0CBF\u0CAC\u0CBF\u0CB0\u0C97\u0CB3\u0CC1',
+bp_progress:'\u0CB0\u0C95\u0CCD\u0CA4\u0CA6\u0CCA\u0CA4\u0CCD\u0CA4\u0CA1 \u0CA4\u0CAA\u0CBE\u0CB8\u0CA3\u0CC6 \u0CAA\u0CC2\u0CB0\u0CCD\u0CA3',
+dm_progress:'\u0CAE\u0CA7\u0CC1\u0CAE\u0CC7\u0CB9 \u0CA4\u0CAA\u0CBE\u0CB8\u0CA3\u0CC6 \u0CAA\u0CC2\u0CB0\u0CCD\u0CA3',
+stat_camps:'\u0C86\u0CB0\u0CCB\u0C97\u0CCD\u0CAF \u0CB6\u0CBF\u0CAC\u0CBF\u0CB0\u0C97\u0CB3\u0CC1',
+stat_participants:'\u0CA8\u0CCB\u0C82\u0CA6\u0CBE\u0CAF\u0CBF\u0CA4',
+stat_screenings:'\u0CA4\u0CAA\u0CBE\u0CB8\u0CA3\u0CC6\u0C97\u0CB3\u0CC1',
+stat_upcoming:'\u0CAE\u0CC1\u0C82\u0CAC\u0CB0\u0CC1\u0CB5',
+features_title:'\u0CA8\u0CBF\u0CB0\u0CCD\u0CB5\u0CB9\u0CBF\u0CB8\u0CB2\u0CC1 \u0C8E\u0CB2\u0CCD\u0CB2\u0CB5\u0CC2',
+features_sub:'\u0CA8\u0CBF\u0CB5\u0CBE\u0CB0\u0C95 \u0C86\u0CB0\u0CCB\u0C97\u0CCD\u0CAF \u0C9A\u0C9F\u0CC1\u0CB5\u0C9F\u0CBF\u0C97\u0CB3\u0CBF\u0C97\u0CBE\u0C97\u0CBF \u0CAA\u0CB0\u0CBF\u0C95\u0CB0\u0C97\u0CB3\u0CC1.',
+f1_t:'\u0CB6\u0CBF\u0CAC\u0CBF\u0CB0 \u0CA8\u0CBF\u0C97\u0CA6\u0CBF', f1_d:'\u0CB6\u0CBF\u0CAC\u0CBF\u0CB0\u0C97\u0CB3\u0CA8\u0CCD\u0CA8\u0CC1 \u0CB0\u0C9A\u0CBF\u0CB8\u0CBF.',
+f2_t:'\u0CA8\u0CCB\u0C82\u0CA6\u0CA3\u0CBF', f2_d:'\u0CB8\u0CA6\u0CB8\u0CCD\u0CAF\u0CB0\u0CBF\u0C97\u0CC6 \u0CA8\u0CCB\u0C82\u0CA6\u0CA3\u0CBF.',
+f3_t:'\u0CB9\u0CBE\u0C9C\u0CB0\u0CBF', f3_d:'\u0CB9\u0CBE\u0C9C\u0CB0\u0CBF\u0CAF\u0CA8\u0CCD\u0CA8\u0CC1 \u0CA6\u0CBE\u0C96\u0CB2\u0CBF\u0CB8\u0CBF.',
+f4_t:'\u0CA4\u0CAA\u0CBE\u0CB8\u0CA3\u0CC6', f4_d:'\u0CAE\u0CBE\u0CB9\u0CBF\u0CA4\u0CBF \u0CB8\u0C82\u0C98\u0C9F\u0CBF\u0CB8\u0CBF.',
+f5_t:'\u0CB5\u0CB0\u0CA6\u0CBF\u0C97\u0CB3\u0CC1', f5_d:'\u0C95\u0CBE\u0CB0\u0CCD\u0CAF\u0C95\u0CCD\u0CB7\u0CAE\u0CA4\u0CC6 \u0CB5\u0CC0\u0C95\u0CCD\u0CB7\u0CBF\u0CB8\u0CBF.',
+f6_t:'\u0C85\u0CA7\u0CBF\u0CB8\u0CC2\u0C9A\u0CA8\u0CC6', f6_d:'\u0C8E\u0CB2\u0CCD\u0CB2\u0CB0\u0CBF\u0C97\u0CC2 \u0CA4\u0CBF\u0CB3\u0CBF\u0CB8\u0CBF.',
+how_title:'\u0CB9\u0CC7\u0C97\u0CC6 \u0C95\u0CC6\u0CB2\u0CB8\u0CC1 \u0CAE\u0CBE\u0CA1\u0CC1\u0CA4\u0CCD\u0CA4\u0CA6\u0CC6',
+h1:'\u0CA8\u0CBF\u0C97\u0CA6\u0CBF', h1d:'\u0CB6\u0CBF\u0CAC\u0CBF\u0CB0 \u0CB0\u0C9A\u0CBF\u0CB8\u0CBF.',
+h2:'\u0CA8\u0CCB\u0C82\u0CA6\u0CA3\u0CBF', h2d:'\u0CA8\u0CCB\u0C82\u0CA6\u0CA3\u0CBF \u0CAE\u0CBE\u0CA1\u0CBF.',
+h3:'\u0CA4\u0CAA\u0CBE\u0CB8\u0CA3\u0CC6', h3d:'\u0CAA\u0CB0\u0CC0\u0C95\u0CCD\u0CB7\u0CC6\u0C97\u0CB3\u0CC1.',
+h4:'\u0C9F\u0CCD\u0CB0\u0CCD\u0CAF\u0CBE\u0C95\u0CCD', h4d:'\u0CA6\u0CBE\u0C96\u0CB2\u0CBF\u0CB8\u0CBF.',
+cta_title:'\u0CB8\u0CBF\u0CA6\u0CCD\u0CA7\u0CB0\u0CBF\u0CA6\u0CCD\u0CA6\u0CC0\u0CB0\u0CBE?',
+cta_desc:'\u0CB8\u0CB0\u0CB3 \u0CAE\u0CA4\u0CCD\u0CA4\u0CC1 \u0CB5\u0CC7\u0C97\u0CB5\u0CBE\u0C97\u0CBF.',
+dash_title:'\u0CA1\u0CCD\u0CAF\u0CBE\u0CB6\u0CCD\u200C\u0CAC\u0CCB\u0CB0\u0CCD\u0CA1\u0CCD',
+dash_sub:'\u0C85\u0CB5\u0CB2\u0CCB\u0C95\u0CA8.',
+dash_camps:'\u0C92\u0C9F\u0CCD\u0C9F\u0CC1 \u0CB6\u0CBF\u0CAC\u0CBF\u0CB0', dash_upcoming:'\u0CAE\u0CC1\u0C82\u0CAC\u0CB0\u0CC1\u0CB5',
+dash_parts:'\u0CAD\u0CBE\u0C97\u0CB5\u0CB9\u0CBF\u0CB8\u0CC1\u0CB5\u0CB5\u0CB0\u0CC1', dash_screens:'\u0CA4\u0CAA\u0CBE\u0CB8\u0CA3\u0CC6',
+chart_attendance:'\u0CB9\u0CBE\u0C9C\u0CB0\u0CBF', chart_breakdown:'\u0CB5\u0CBF\u0CAD\u0C9C\u0CA8\u0CC6',
+camps_title:'\u0CB6\u0CBF\u0CAC\u0CBF\u0CB0\u0C97\u0CB3\u0CC1',
+camps_sub:'\u0CA8\u0CBF\u0CB0\u0CCD\u0CB5\u0CB9\u0CBF\u0CB8\u0CBF.',
+new_camp:'\u0CB9\u0CCA\u0CB8 \u0CB6\u0CBF\u0CAC\u0CBF\u0CB0',
+th_camp:'\u0CB9\u0CC6\u0CB8\u0CB0\u0CC1', th_location:'\u0CB8\u0CCD\u0CA5\u0CB3', th_date:'\u0CA6\u0CBF\u0CA8\u0CBE\u0C82\u0C95',
+th_reg:'\u0CA8\u0CCB\u0C82\u0CA6\u0CBE\u0CAF\u0CBF\u0CA4', th_slots:'\u0C89\u0CB3\u0CBF\u0CA6 \u0CB8\u0CCD\u0CA5\u0CBE\u0CA8', th_status:'\u0CB8\u0CCD\u0CA5\u0CBF\u0CA4\u0CBF',
+th_id:'\u0C90\u0CA1\u0CBF', th_name:'\u0CB9\u0CC6\u0CB8\u0CB0\u0CC1', th_age:'\u0CB5\u0CAF\u0CB8\u0CCD\u0DC3\u0CC1', th_actions:'\u0C95\u0CCD\u0CB0\u0CBF\u0CAF\u0CC6',
+modal_title:'\u0CB9\u0CCA\u0CB8 \u0CB6\u0CBF\u0CAC\u0CBF\u0CB0',
+f_name:'\u0CB9\u0CC6\u0CB8\u0CB0\u0CC1', f_date:'\u0CA6\u0CBF\u0CA8\u0CBE\u0C82\u0C95', f_max:'\u0C97\u0CB0\u0CBF\u0CB7\u0CCD\u0CA0',
+f_start:'\u0CAA\u0CCD\u0CB0\u0CBE\u0CB0\u0C82\u0CAD', f_end:'\u0CAE\u0CC1\u0C95\u0CCD\u0CA4\u0CBE\u0CAF', f_location:'\u0CB8\u0CCD\u0CA5\u0CB3',
+cancel:'\u0CB0\u0CA6\u0CCD\u0CA6\u0CC1', create:'\u0CB0\u0C9A\u0CBF\u0CB8\u0CBF',
+parts_title:'\u0CAD\u0CBE\u0C97\u0CB5\u0CB9\u0CBF\u0CB8\u0CC1\u0CB5\u0CB5\u0CB0\u0CC1', parts_sub:'\u0CA8\u0CBF\u0CB0\u0CCD\u0CB5\u0CB9\u0CBF\u0CB8\u0CBF.',
+reg_participant:'\u0CA8\u0CCB\u0C82\u0CA6\u0CA3\u0CBF \u0CAE\u0CBE\u0CA1\u0CBF',
+reg_title:'\u0CA8\u0CCB\u0C82\u0CA6\u0CA3\u0CBF',
+reg_sub:'\u0CB5\u0CBF\u0CB5\u0CB0\u0C97\u0CB3\u0CA8\u0CCD\u0CA8\u0CC1 \u0CA8\u0CAE\u0CC2\u0CA6\u0CBF\u0CB8\u0CBF.',
+f_fullname:'\u0CAA\u0CC2\u0CB0\u0CCD\u0CA3 \u0CB9\u0CC6\u0CB8\u0CB0\u0CC1', f_age:'\u0CB5\u0CAF\u0CB8\u0CCD\u0DC3\u0CC1', f_phone:'\u0CAB\u0CCB\u0CA8\u0CCD',
+f_camp:'\u0CB6\u0CBF\u0CAC\u0CBF\u0CB0', complete_reg:'\u0CAA\u0CC2\u0CB0\u0CCD\u0CA3\u0C97\u0CCA\u0CB3\u0CBF\u0CB8\u0CBF',
+reg_success:'\u0CAF\u0CB6\u0CB8\u0CCD\u0CB5\u0CBF',
+att_title:'\u0CB9\u0CBE\u0C9C\u0CB0\u0CBF', att_sub:'\u0C97\u0CC1\u0CB0\u0CC1\u0CA4\u0CBF\u0CB8\u0CBF.',
+scr_title:'\u0CA4\u0CAA\u0CBE\u0CB8\u0CA3\u0CC6',
+scr_sub:'\u0CA6\u0CBE\u0C96\u0CB2\u0CBF\u0CB8\u0CBF.',
+f_pid:'\u0C90\u0CA1\u0CBF',
+scr_bp:'\u0CB0\u0C95\u0CCD\u0CA4\u0CA6\u0CCA\u0CA4\u0CCD\u0CA4\u0CA1', f_sys:'\u0CB8\u0CBF\u0CB8\u0CCD\u0C9F\u0CCB\u0CB2\u0CBF\u0C95\u0CCD', f_dia:'\u0CA1\u0CAF\u0CBE\u0CB8\u0CCD\u0C9F\u0CCB\u0CB2\u0CBF\u0C95\u0CCD',
+scr_dm:'\u0CAE\u0CA7\u0CC1\u0CAE\u0CC7\u0CB9', f_glucose:'\u0C97\u0CCD\u0CB2\u0CC2\u0C95\u0CCB\u0CB8\u0CCD', f_type:'\u0CAA\u0CCD\u0CB0\u0C95\u0CBE\u0CB0',
+f_notes:'\u0C9F\u0CBF\u0CAA\u0CCD\u0CAA\u0CA3\u0CBF',
+scr_disclaimer:'\u0C85\u0CB0\u0CCD\u0CB9 \u0CB5\u0CC8\u0CA6\u0CCD\u0CAF\u0CB0\u0CBF\u0C82\u0CA6 \u0CAA\u0CB0\u0CBF\u0CB6\u0CC0\u0CB2\u0CBF\u0CB8\u0CBF.',
+save_screening:'\u0C89\u0CB3\u0CBF\u0CB8\u0CBF',
+rep_title:'\u0CB5\u0CB0\u0CA6\u0CBF\u0C97\u0CB3\u0CC1',
+rep_sub:'\u0CB5\u0CBF\u0CB6\u0CCD\u0CB2\u0CC7\u0CB7\u0CBF\u0CB8\u0CBF.',
+rep_chart:'\u0CAA\u0CCD\u0CB0\u0CAE\u0CBE\u0CA3',
+notif_title:'\u0C85\u0CA7\u0CBF\u0CB8\u0CC2\u0C9A\u0CA8\u0CC6',
+f_email:'\u0C87\u0CAE\u0CC7\u0CB2\u0CCD', save_changes:'\u0C89\u0CB3\u0CBF\u0CB8\u0CBF',
+footer_tag:'\u0CB8\u0CCD\u0CAE\u0CBE\u0CB0\u0CCD\u0C9F\u0CCD \u0CA8\u0CBF\u0C97\u0CA6\u0CBF.',
+msg_camp_created:'\u0CB6\u0CBF\u0CAC\u0CBF\u0CB0 \u0CB0\u0C9A\u0CBF\u0CB8\u0CB2\u0CBE\u0C97\u0CBF\u0CA6\u0CC6!',
+msg_screening_saved:'\u0C89\u0CB3\u0CBF\u0CB8\u0CB2\u0CBE\u0C97\u0CBF\u0CA6\u0CC6!',
+msg_participant_not_found:'\u0C95\u0C82\u0CA1\u0CC1\u0CAC\u0C82\u0CA6\u0CBF\u0CB2\u0CCD\u0CB2',
+msg_error:'\u0CA6\u0CCB\u0CB7: '
 },
 hi: {
-hero_badge:'विश्वसनीय स्वास्थ्य मंच',
-hero_title_1:'समुदायों को जोड़ना ',
-hero_title_2:'बेहतर स्वास्थ्य जांच के साथ',
-hero_desc:'सामुदायिक स्वास्थ्य शिविरों का समय निर्धारित करें, पंजीकरण प्रबंधित करें, उपस्थिति ट्रैक करें।',
-schedule_camp:'शिविर निर्धारित करें',
-find_camp:'जांच शिविर खोजें',
-preview_camp_title:'सामुदायिक स्वास्थ्य शिविर',
-participants:'प्रतिभागी',
-camps:'शिविर',
-bp_progress:'बीपी जांच पूर्ण',
-dm_progress:'मधुमेह जांच पूर्ण',
-stat_camps:'स्वास्थ्य शिविर',
-stat_participants:'पंजीकृत',
-stat_screenings:'जांच',
-stat_upcoming:'आगामी',
-features_title:'स्वास्थ्य शिविरों के प्रबंधन के लिए सब कुछ',
-features_sub:'निवारक स्वास्थ्य अभियानों के लिए डिज़ाइन किए गए उपकरण।',
-f1_t:'शिविर शेड्यूलिंग', f1_d:'सामुदायिक जांच शिविर बनाएं और प्रबंधित करें।',
-f2_t:'प्रतिभागी पंजीकरण', f2_d:'सदस्यों को शिविरों के लिए पंजीकरण करने दें।',
-f3_t:'उपस्थिति ट्रैकिंग', f3_d:'वास्तविक समय में उपस्थिति दर्ज करें।',
-f4_t:'जांच रिकॉर्ड', f4_d:'बीपी और मधुमेह जानकारी व्यवस्थित करें।',
-f5_t:'रिपोर्ट और विश्लेषण', f5_d:'दृश्य रिपोर्ट के साथ प्रदर्शन देखें।',
-f6_t:'स्मार्ट सूचनाएं', f6_d:'कर्मचारियों और प्रतिभागियों को सूचित रखें।',
-how_title:'यह कैसे काम करता है',
-h1:'निर्धारित करें', h1d:'एक जांच शिविर बनाएं।',
-h2:'पंजीकरण', h2d:'सदस्य शिविर के लिए साइन अप करते हैं।',
-h3:'जांच', h3d:'कर्मचारी बीपी और मधुमेह परीक्षण करते हैं।',
-h4:'ट्रैक और रिपोर्ट', h4d:'उपस्थिति और रिपोर्ट दर्ज करें।',
-cta_title:'अपने अगले स्वास्थ्य शिविर का आयोजन करने के लिए तैयार?',
-cta_desc:'सामुदायिक जांच को सरल, तेज़ और व्यवस्थित बनाएं।',
-dash_title:'डैशबोर्ड',
-dash_sub:'आपकी सामुदायिक स्वास्थ्य जांच गतिविधियों का अवलोकन।',
-dash_camps:'कुल शिविर', dash_upcoming:'आगामी', dash_parts:'प्रतिभागी', dash_screens:'जांच',
-chart_attendance:'उपस्थिति रुझान', chart_breakdown:'जांच विभाजन',
-camps_title:'स्वास्थ्य जांच शिविर',
-camps_sub:'सामुदायिक जांच शिविर बनाएं और प्रबंधित करें।',
-new_camp:'नया शिविर निर्धारित करें',
-th_camp:'शिविर का नाम', th_location:'स्थान', th_date:'दिनांक और समय',
-th_reg:'पंजीकृत', th_slots:'शेष स्थान', th_status:'स्थिति',
-th_id:'आईडी', th_name:'नाम', th_age:'आयु / फोन', th_actions:'क्रियाएं',
-modal_title:'नया स्वास्थ्य शिविर निर्धारित करें',
-f_name:'शिविर का नाम', f_date:'दिनांक', f_max:'अधिकतम प्रतिभागी',
-f_start:'प्रारंभ समय', f_end:'समाप्ति समय', f_location:'स्थान',
-cancel:'रद्द करें', create:'शिविर बनाएं',
-parts_title:'प्रतिभागी', parts_sub:'पंजीकृत सामुदायिक सदस्यों को प्रबंधित करें।',
-reg_participant:'प्रतिभागी पंजीकृत करें',
-reg_title:'स्वास्थ्य जांच के लिए पंजीकरण करें',
-reg_sub:'पंजीकरण आईडी बनाने के लिए विवरण दर्ज करें।',
-f_fullname:'पूरा नाम', f_age:'आयु', f_phone:'फोन',
-f_camp:'शिविर चुनें', complete_reg:'पंजीकरण पूर्ण करें',
-reg_success:'पंजीकरण सफल',
-att_title:'उपस्थिति', att_sub:'प्रतिभागियों को उपस्थित या अनुपस्थित चिह्नित करें।',
-scr_title:'स्वास्थ्य जांच फॉर्म',
-scr_sub:'बीपी और मधुमेह मेट्रिक्स दर्ज करें।',
-f_pid:'प्रतिभागी आईडी',
-scr_bp:'रक्तचाप', f_sys:'सिस्टोलिक (mmHg)', f_dia:'डायस्टोलिक (mmHg)',
-scr_dm:'मधुमेह जांच', f_glucose:'रक्त ग्लूकोज (mg/dL)', f_type:'जांच प्रकार',
-f_notes:'नोट्स',
-scr_disclaimer:'जांच परिणामों की समीक्षा योग्य स्वास्थ्य पेशेवरों द्वारा की जानी चाहिए।',
-save_screening:'जांच सहेजें',
-rep_title:'रिपोर्ट और विश्लेषण',
-rep_sub:'सामुदायिक स्वास्थ्य जांच गतिविधियों का विश्लेषण करें।',
-rep_chart:'शिविर भागीदारी मात्रा',
-notif_title:'सूचनाएं',
-f_email:'ईमेल', save_changes:'परिवर्तन सहेजें',
-footer_tag:'स्वस्थ समुदायों के लिए स्मार्ट शेड्यूलिंग।',
-msg_camp_created:'शिविर सफलतापूर्वक बनाया गया!',
-msg_screening_saved:'जांच सहेजी गई!',
-msg_participant_not_found:'प्रतिभागी नहीं मिला',
-msg_error:'त्रुटि: '
+hero_badge:'\u0935\u093F\u0936\u094D\u0935\u0938\u0928\u0940\u092F \u0938\u094D\u0935\u093E\u0938\u094D\u0925\u094D\u092F \u092E\u0902\u091A',
+hero_title_1:'\u0938\u092E\u0941\u0926\u093E\u092F\u094B\u0902 \u0915\u094B \u091C\u094B\u0921\u093C\u0928\u093E ',
+hero_title_2:'\u092C\u0947\u0939\u0924\u0930 \u0938\u094D\u0935\u093E\u0938\u094D\u0925\u094D\u092F \u091C\u093E\u0902\u091A',
+hero_desc:'\u0938\u093E\u092E\u0941\u0926\u093E\u092F\u093F\u0915 \u0938\u094D\u0935\u093E\u0938\u094D\u0925\u094D\u092F \u0936\u093F\u0935\u093F\u0930\u094B\u0902 \u0915\u093E \u0938\u092E\u092F \u0928\u093F\u0930\u094D\u0927\u093E\u0930\u093F\u0924 \u0915\u0930\u0947\u0902.',
+schedule_camp:'\u0936\u093F\u0935\u093F\u0930 \u0928\u093F\u0930\u094D\u0927\u093E\u0930\u093F\u0924 \u0915\u0930\u0947\u0902',
+find_camp:'\u0936\u093F\u0935\u093F\u0930 \u0916\u094B\u091C\u0947\u0902',
+preview_camp_title:'\u0938\u093E\u092E\u0941\u0926\u093E\u092F\u093F\u0915 \u0938\u094D\u0935\u093E\u0938\u094D\u0925\u094D\u092F \u0936\u093F\u0935\u093F\u0930',
+participants:'\u092A\u094D\u0930\u0924\u093F\u092D\u093E\u0917\u0940',
+camps:'\u0936\u093F\u0935\u093F\u0930',
+bp_progress:'\u092C\u0940\u092A\u0940 \u091C\u093E\u0902\u091A \u092A\u0942\u0930\u094D\u0923',
+dm_progress:'\u092E\u0927\u0941\u092E\u0947\u0939 \u091C\u093E\u0902\u091A \u092A\u0942\u0930\u094D\u0923',
+stat_camps:'\u0938\u094D\u0935\u093E\u0938\u094D\u0925\u094D\u092F \u0936\u093F\u0935\u093F\u0930',
+stat_participants:'\u092A\u0902\u091C\u0940\u0915\u0943\u0924',
+stat_screenings:'\u091C\u093E\u0902\u091A',
+stat_upcoming:'\u0906\u0917\u093E\u092E\u0940',
+features_title:'\u0938\u092C \u0915\u0941\u091B \u091C\u094B \u0906\u092A\u0915\u094B \u091A\u093E\u0939\u093F\u090F',
+features_sub:'\u0928\u093F\u0935\u093E\u0930\u0915 \u0938\u094D\u0935\u093E\u0938\u094D\u0925\u094D\u092F \u0905\u092D\u093F\u092F\u093E\u0928\u094B\u0902 \u0915\u0947 \u0932\u093F\u090F \u0909\u092A\u0915\u0930\u0923.',
+f1_t:'\u0936\u093F\u0935\u093F\u0930 \u0936\u0947\u0921\u094D\u092F\u0942\u0932\u093F\u0902\u0917', f1_d:'\u0936\u093F\u0935\u093F\u0930 \u092C\u0928\u093E\u090F\u0902.',
+f2_t:'\u092A\u0902\u091C\u0940\u0915\u0930\u0923', f2_d:'\u0938\u0926\u0938\u094D\u092F \u092A\u0902\u091C\u0940\u0915\u0930\u0923 \u0915\u0930\u0947\u0902.',
+f3_t:'\u0909\u092A\u0938\u094D\u0925\u093F\u0924\u093F', f3_d:'\u0909\u092A\u0938\u094D\u0925\u093F\u0924\u093F \u0926\u0930\u094D\u091C \u0915\u0930\u0947\u0902.',
+f4_t:'\u091C\u093E\u0902\u091A \u0930\u093F\u0915\u0949\u0930\u094D\u0921', f4_d:'\u0921\u0947\u091F\u093E \u0935\u094D\u092F\u0935\u0938\u094D\u0925\u093F\u0924 \u0915\u0930\u0947\u0902.',
+f5_t:'\u0930\u093F\u092A\u094B\u0930\u094D\u091F', f5_d:'\u092A\u094D\u0930\u0926\u0930\u094D\u0936\u0928 \u0926\u0947\u0916\u0947\u0902.',
+f6_t:'\u0938\u0942\u091A\u0928\u093E\u090F\u0902', f6_d:'\u0938\u092C\u0915\u094B \u0938\u0942\u091A\u093F\u0924 \u0930\u0916\u0947\u0902.',
+how_title:'\u092F\u0939 \u0915\u0948\u0938\u0947 \u0915\u093E\u092E \u0915\u0930\u0924\u093E \u0939\u0948',
+h1:'\u0928\u093F\u0930\u094D\u0927\u093E\u0930\u093F\u0924', h1d:'\u0936\u093F\u0935\u093F\u0930 \u092C\u0928\u093E\u090F\u0902.',
+h2:'\u092A\u0902\u091C\u0940\u0915\u0930\u0923', h2d:'\u0938\u093E\u0907\u0928 \u0905\u092A.',
+h3:'\u091C\u093E\u0902\u091A', h3d:'\u092A\u0930\u0940\u0915\u094D\u0937\u0923.',
+h4:'\u091F\u094D\u0930\u0948\u0915', h4d:'\u0930\u093F\u0915\u0949\u0930\u094D\u0921.',
+cta_title:'\u0924\u0948\u092F\u093E\u0930 \u0939\u0948\u0902?',
+cta_desc:'\u0938\u0930\u0932 \u0914\u0930 \u0924\u0947\u091C\u093C.',
+dash_title:'\u0921\u0948\u0936\u092C\u094B\u0930\u094D\u0921',
+dash_sub:'\u0905\u0935\u0932\u094B\u0915\u0928.',
+dash_camps:'\u0915\u0941\u0932 \u0936\u093F\u0935\u093F\u0930', dash_upcoming:'\u0906\u0917\u093E\u092E\u0940',
+dash_parts:'\u092A\u094D\u0930\u0924\u093F\u092D\u093E\u0917\u0940', dash_screens:'\u091C\u093E\u0902\u091A',
+chart_attendance:'\u0909\u092A\u0938\u094D\u0925\u093F\u0924\u093F', chart_breakdown:'\u0935\u093F\u092D\u093E\u091C\u0928',
+camps_title:'\u0936\u093F\u0935\u093F\u0930',
+camps_sub:'\u092A\u094D\u0930\u092C\u0902\u0927\u0928 \u0915\u0930\u0947\u0902.',
+new_camp:'\u0928\u092F\u093E \u0936\u093F\u0935\u093F\u0930',
+th_camp:'\u0928\u093E\u092E', th_location:'\u0938\u094D\u0925\u093E\u0928', th_date:'\u0926\u093F\u0928\u093E\u0902\u0915',
+th_reg:'\u092A\u0902\u091C\u0940\u0915\u0943\u0924', th_slots:'\u0936\u0947\u0937 \u0938\u094D\u0925\u093E\u0928', th_status:'\u0938\u094D\u0925\u093F\u0924\u093F',
+th_id:'\u0906\u0908\u0921\u0940', th_name:'\u0928\u093E\u092E', th_age:'\u0906\u092F\u0941', th_actions:'\u0915\u094D\u0930\u093F\u092F\u093E\u090F\u0902',
+modal_title:'\u0928\u092F\u093E \u0936\u093F\u0935\u093F\u0930',
+f_name:'\u0928\u093E\u092E', f_date:'\u0926\u093F\u0928\u093E\u0902\u0915', f_max:'\u0905\u0927\u093F\u0915\u0924\u092E',
+f_start:'\u092A\u094D\u0930\u093E\u0930\u0902\u092D', f_end:'\u0938\u092E\u093E\u092A\u094D\u0924\u093F', f_location:'\u0938\u094D\u0925\u093E\u0928',
+cancel:'\u0930\u0926\u094D\u0926', create:'\u092C\u0928\u093E\u090F\u0902',
+parts_title:'\u092A\u094D\u0930\u0924\u093F\u092D\u093E\u0917\u0940', parts_sub:'\u092A\u094D\u0930\u092C\u0902\u0927\u0928.',
+reg_participant:'\u092A\u0902\u091C\u0940\u0915\u0930\u0923 \u0915\u0930\u0947\u0902',
+reg_title:'\u092A\u0902\u091C\u0940\u0915\u0930\u0923',
+reg_sub:'\u0935\u093F\u0935\u0930\u0923 \u0926\u0930\u094D\u091C \u0915\u0930\u0947\u0902.',
+f_fullname:'\u092A\u0942\u0930\u093E \u0928\u093E\u092E', f_age:'\u0906\u092F\u0941', f_phone:'\u092B\u094B\u0928',
+f_camp:'\u0936\u093F\u0935\u093F\u0930', complete_reg:'\u092A\u0902\u091C\u0940\u0915\u0930\u0923 \u092A\u0942\u0930\u094D\u0923',
+reg_success:'\u0938\u092B\u0932',
+att_title:'\u0909\u092A\u0938\u094D\u0925\u093F\u0924\u093F', att_sub:'\u091A\u093F\u0939\u094D\u0928\u093F\u0924 \u0915\u0930\u0947\u0902.',
+scr_title:'\u091C\u093E\u0902\u091A \u092B\u0949\u0930\u094D\u092E',
+scr_sub:'\u092E\u0947\u091F\u094D\u0930\u093F\u0915\u094D\u0938 \u0926\u0930\u094D\u091C \u0915\u0930\u0947\u0902.',
+f_pid:'\u0906\u0908\u0921\u0940',
+scr_bp:'\u0930\u0915\u094D\u0924\u091A\u093E\u092A', f_sys:'\u0938\u093F\u0938\u094D\u091F\u094B\u0932\u093F\u0915', f_dia:'\u0921\u093E\u092F\u0938\u094D\u091F\u094B\u0932\u093F\u0915',
+scr_dm:'\u092E\u0927\u0941\u092E\u0947\u0939', f_glucose:'\u0917\u094D\u0932\u0942\u0915\u094B\u091C', f_type:'\u092A\u094D\u0930\u0915\u093E\u0930',
+f_notes:'\u0928\u094B\u091F\u094D\u0938',
+scr_disclaimer:'\u092A\u0930\u093F\u0923\u093E\u092E\u094B\u0902 \u0915\u0940 \u0938\u092E\u0940\u0915\u094D\u0937\u093E \u0935\u0948\u0926\u094D\u092F\u094B\u0902 \u0926\u094D\u0935\u093E\u0930\u093E \u0915\u0940 \u091C\u093E\u0928\u0940 \u091A\u093E\u0939\u093F\u090F.',
+save_screening:'\u0938\u0939\u0947\u091C\u0947\u0902',
+rep_title:'\u0930\u093F\u092A\u094B\u0930\u094D\u091F',
+rep_sub:'\u0935\u093F\u0936\u094D\u0932\u0947\u0937\u0923.',
+rep_chart:'\u092E\u093E\u0924\u094D\u0930\u093E',
+notif_title:'\u0938\u0942\u091A\u0928\u093E\u090F\u0902',
+f_email:'\u0908\u092E\u0947\u0932', save_changes:'\u0938\u0939\u0947\u091C\u0947\u0902',
+footer_tag:'\u0938\u094D\u092E\u093E\u0930\u094D\u091F \u0936\u0947\u0921\u094D\u092F\u0942\u0932\u093F\u0902\u0917.',
+msg_camp_created:'\u0936\u093F\u0935\u093F\u0930 \u092C\u0928\u093E\u092F\u093E \u0917\u092F\u093E!',
+msg_screening_saved:'\u0938\u0939\u0947\u091C\u093E \u0917\u092F\u093E!',
+msg_participant_not_found:'\u0928\u0939\u0940\u0902 \u092E\u093F\u0932\u093E',
+msg_error:'\u0924\u094D\u0930\u0941\u091F\u093F: '
 }
 };
 
 var currentLang = localStorage.getItem('lang') || 'en';
 
+function t(key){
+return (TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][key]) || TRANSLATIONS.en[key] || key;
+}
+function applyTranslations(){
+document.querySelectorAll('[data-i18n]').forEach(function(el){
+var k = el.getAttribute('data-i18n');
+el.textContent = t(k);
+});
+}
 function setLang(lang){
 currentLang = lang;
-localStorage.setItem('lang', lang);
+try { localStorage.setItem('lang', lang); } catch(e){}
 document.getElementById('langMenu').classList.add('hidden');
-var label = lang === 'en' ? 'EN' : (lang === 'kn' ? 'ಕನ' : 'हि');
+var label = lang === 'en' ? 'EN' : (lang === 'kn' ? 'KN' : 'HI');
 document.getElementById('currentLangLabel').textContent = label;
 applyTranslations();
 }
 function toggleLangMenu(){
 document.getElementById('langMenu').classList.toggle('hidden');
 }
-function t(key){
-return (TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][key]) || TRANSLATIONS.en[key] || key;
-}
-function applyTranslations(){
-document.querySelectorAll('[data-i18n]').forEach(function(el){
-var key = el.getAttribute('data-i18n');
-el.textContent = t(key);
-});
-}
 
-// Close lang menu when clicking outside
-document.addEventListener('click', function(e){
-var menu = document.getElementById('langMenu');
-var btn = e.target.closest('button');
-if (menu && !menu.classList.contains('hidden') && (!btn || !btn.onclick || btn.onclick.toString().indexOf('toggleLangMenu') === -1)) {
-if (!e.target.closest('#langMenu') && !e.target.closest('button[onclick="toggleLangMenu()"]')) {
-menu.classList.add('hidden');
-}
-}
-});
-
-// ============================================================
-// Tab navigation
-// ============================================================
-function switchTab(tabId) {
+/* ==========================================================
+Tab navigation
+========================================================== */
+function switchTab(tabId){
 document.querySelectorAll('.tab-content').forEach(function(el){ el.classList.add('hidden'); });
 var target = document.getElementById('page-' + tabId);
 if (target) { target.classList.remove('hidden'); target.classList.add('fade-in'); }
 
 document.querySelectorAll('.nav-btn').forEach(function(btn){
-btn.classList.remove('text-brand-600','bg-brand-50');
+btn.classList.remove('text-brand-600');
 btn.classList.add('text-ink-700');
 });
 var activeNav = document.getElementById('nav-' + tabId);
-if (activeNav) {
-activeNav.classList.add('text-brand-600');
-activeNav.classList.remove('text-ink-700');
-}
+if (activeNav) { activeNav.classList.add('text-brand-600'); activeNav.classList.remove('text-ink-700'); }
+
 var mm = document.getElementById('mobile-menu');
 if (mm) mm.classList.add('hidden');
 window.scrollTo({top:0,behavior:'smooth'});
@@ -919,20 +867,19 @@ if (tabId === 'dashboard') loadDashboard();
 if (tabId === 'reports') renderReportsChart();
 if (tabId === 'landing') loadLandingStats();
 }
-
 function toggleMobileMenu(){ document.getElementById('mobile-menu').classList.toggle('hidden'); }
 function openScheduleModal(){ document.getElementById('scheduleModal').classList.remove('hidden'); }
 function closeScheduleModal(){ document.getElementById('scheduleModal').classList.add('hidden'); }
 
-// ============================================================
-// Data functions (Supabase)
-// ============================================================
+/* ==========================================================
+Data functions
+========================================================== /
 async function loadLandingStats(){
 try {
 var r1 = await db.from('camps').select('', {count:'exact', head:true});
 var r2 = await db.from('participants').select('', {count:'exact', head:true});
 var r3 = await db.from('screenings').select('', {count:'exact', head:true});
-var r4 = await db.from('camps').select('',{count:'exact',head:true}).eq('status','upcoming');
+var r4 = await db.from('camps').select('*', {count:'exact', head:true}).eq('status','upcoming');
 document.getElementById('statCamps').textContent = r1.count || 0;
 document.getElementById('statParticipants').textContent = r2.count || 0;
 document.getElementById('statScreenings').textContent = r3.count || 0;
@@ -987,7 +934,7 @@ tbody.innerHTML = res.data.map(function(p){
 return '<tr>' +
 '<td class="p-4 font-mono font-medium text-brand-600">' + p.registration_id + '</td>' +
 '<td class="p-4 font-semibold text-ink-900">' + p.name + '</td>' +
-'<td class="p-4">' + (p.age || '-') + ' yrs • ' + (p.phone || '-') + '</td>' +
+'<td class="p-4">' + (p.age || '-') + ' yrs - ' + (p.phone || '-') + '</td>' +
 '<td class="p-4"><span class="px-2.5 py-1 bg-brand-100 text-brand-700 rounded-full text-xs font-semibold">' + (p.screened ? 'Screened' : 'Registered') + '</span></td>' +
 '</tr>';
 }).join('');
@@ -1024,17 +971,24 @@ var res = await db.from('participants').select('*').order('created_at', {ascendi
 var tbody = document.getElementById('attendanceTableBody');
 if (res.error) { tbody.innerHTML = '<tr><td colspan="4" class="p-6 text-center text-rose-500">' + res.error.message + '</td></tr>'; return; }
 if (!res.data.length) { tbody.innerHTML = '<tr><td colspan="4" class="p-6 text-center text-ink-500">No participants yet.</td></tr>'; return; }
+
 tbody.innerHTML = res.data.map(function(p){
 return '<tr>' +
 '<td class="p-4 font-mono text-ink-500">' + p.registration_id + '</td>' +
 '<td class="p-4 font-semibold text-ink-900">' + p.name + '</td>' +
 '<td class="p-4"><span class="px-2.5 py-1 bg-slate-100 rounded-full text-xs">' + (p.attendance || 'pending') + '</span></td>' +
 '<td class="p-4 text-right space-x-1">' +
-'<button onclick="markAttendance('' + p.id + '','present')" class="px-2.5 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-xs font-semibold">P</button>' +
-'<button onclick="markAttendance('' + p.id + '','absent')" class="px-2.5 py-1 bg-rose-50 text-rose-600 rounded-lg text-xs font-semibold">A</button>' +
+'<button class="att-btn px-2.5 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-xs font-semibold" data-id="' + p.id + '" data-status="present">P</button>' +
+'<button class="att-btn px-2.5 py-1 bg-rose-50 text-rose-600 rounded-lg text-xs font-semibold" data-id="' + p.id + '" data-status="absent">A</button>' +
 '</td>' +
 '</tr>';
 }).join('');
+
+document.querySelectorAll('.att-btn').forEach(function(btn){
+btn.addEventListener('click', function(){
+markAttendance(btn.getAttribute('data-id'), btn.getAttribute('data-status'));
+});
+});
 }
 
 async function markAttendance(id, status){
@@ -1120,11 +1074,12 @@ options: {responsive:true, maintainAspectRatio:false}
 });
 }
 
-// ============================================================
-// Init
-// ============================================================
+/* ==========================================================
+Init
+========================================================== */
+lucide.createIcons();
 applyTranslations();
-setLang(currentLang);
+document.getElementById('currentLangLabel').textContent = currentLang === 'en' ? 'EN' : (currentLang === 'kn' ? 'KN' : 'HI');
 loadLandingStats();
 </script>
 </body>
